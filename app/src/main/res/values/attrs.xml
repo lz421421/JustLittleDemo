@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="test">
+        <attr name="isRight" format="boolean"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="Follow">
+        <attr name="target" format="reference"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="MyViewPager">
+        <attr name="isLoop" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="Gif">
+        <attr name="gif" format="reference"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="NormalView">
+        <attr name="leftIcon" format="reference"/>
+        <attr name="rightIcon" format="reference"/>
+        <attr name="leftText" format="string"/>
+        <attr name="rightText" format="string"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="TimeTextView">
+    </declare-styleable>
+
+
+    <declare-styleable name="RoundView">
+        <attr name="inColor" format="color|reference"/>
+    </declare-styleable>
+
+</resources>

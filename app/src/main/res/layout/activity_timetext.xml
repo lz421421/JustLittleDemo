@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <com.lizhi.demo.timetext.TimeTextView
+        android:id="@+id/tv_time"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:textSize="18sp"
+        android:text="开始"
+        android:textColor="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"/>
+
+</LinearLayout>

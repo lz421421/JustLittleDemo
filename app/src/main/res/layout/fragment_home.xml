@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
+
+    <include
+        android:id="@+id/ll_title_service"
+        layout="@layout/title_service_station"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"></include>
+
+    <com.lizhi.demo.chaoshidemo.view.HomeView
+        android:id="@+id/homeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_title_service">
+
+        <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:id="@+id/ll_header"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tm_mui_bike"/>
+
+                <TextView
+                    android:id="@+id/tv_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="下拉刷新"/>
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/view_footer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"></View>
+        </LinearLayout>
+
+
+    </com.lizhi.demo.chaoshidemo.view.HomeView>
+
+
+</RelativeLayout>

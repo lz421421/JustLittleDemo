@@ -1,0 +1,51 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true"
+                                                 android:orientation="vertical"
+                                                 tools:context=".MainActivity">
+
+
+
+       <com.lizhi.demo.coordinatorlayout_behavior.MyTextView
+            android:id="@+id/first"
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:text="first"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@android:color/holo_blue_light"/>
+
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:id="@+id/second"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="128dp"-->
+                <!--style="@style/TextAppearance.AppCompat.Display3"-->
+                <!--android:text="A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN\nO\nP\nQ\nR\nS\nT\nU\nV\nW\nX\nY\nZ"-->
+                <!--android:background="@android:color/holo_red_light"/>-->
+        <!--</LinearLayout>-->
+    <!--</android.support.v4.widget.NestedScrollView>-->
+
+
+    <!--<TextView-->
+        <!--android:id="@+id/second"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="128dp"-->
+        <!--android:text="second"-->
+        <!--android:gravity="center"-->
+        <!--android:background="@android:color/holo_green_light"-->
+        <!--app:layout_behavior="com.lizhi.demo.coordinatorlayout_behavior.MyBehavior"-->
+        <!--app:target="@id/first"/>-->
+
+
+</android.support.design.widget.CoordinatorLayout>

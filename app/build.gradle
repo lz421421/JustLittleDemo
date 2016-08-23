@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        // 语言选择只使用中文
+        resConfigs "zh"
+        applicationId "com.lizhi.demo"
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+/*    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }*/
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+//    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.alibaba:fastjson:1.2.8'
+
+    compile 'com.github.chenupt.android:dragtoplayout:1.1.0@aar'
+
+    compile('com.github.florent37:materialviewpager:1.0.0@aar') {
+        transitive = true
+    }
+    compile 'com.facebook.fresco:fresco:0.9.0+'
+    compile 'com.facebook.rebound:rebound:0.3.8'
+
+
+}
+
+android {
+    // .. android settings ..
+    sourceSets.main {
+        jniLibs.srcDirs = ['libs']  // <-- Set your folder here!
+    }
+}
+repositories {
+    jcenter()
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Xlint:varargs"
+            /*    options.compilerArgs << "-Xlint:unchecked"
+                options.compilerArgs << "-Xlint:varargs"*/
+        }
+    }
+}

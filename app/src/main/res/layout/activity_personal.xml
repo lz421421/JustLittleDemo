@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:NormalView="http://schemas.android.com/apk/res-auto"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.lizhi.demo.personal.view.NormalView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        NormalView:leftIcon="@drawable/personal_coupons"
+        NormalView:leftText="我的优惠券"
+        NormalView:rightIcon="@drawable/personal_icon_arrow"
+        NormalView:rightText="查看更多"></com.lizhi.demo.personal.view.NormalView>
+
+    <com.lizhi.demo.personal.view.NormalView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        NormalView:leftIcon="@drawable/personal_coupons"
+        NormalView:leftText="你的优惠券"
+        NormalView:rightIcon="@drawable/personal_icon_arrow"
+        NormalView:rightText="查看更多"></com.lizhi.demo.personal.view.NormalView>
+
+    <com.lizhi.demo.personal.view.NormalView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        NormalView:leftIcon="@drawable/personal_coupons"
+        NormalView:leftText="他的优惠券"
+        NormalView:rightIcon="@drawable/personal_icon_arrow"
+        NormalView:rightText="查看更多"></com.lizhi.demo.personal.view.NormalView>
+
+    <com.lizhi.demo.personal.view.NormalView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        NormalView:leftIcon="@drawable/personal_coupons"
+        NormalView:leftText="大家的优惠券"
+        NormalView:rightIcon="@drawable/personal_icon_arrow"
+        NormalView:rightText="查看更多"></com.lizhi.demo.personal.view.NormalView>
+
+
+</LinearLayout>

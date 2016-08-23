@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="48dp"
+              android:gravity="center">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tm_webview_isv_unfollowed"/>
+
+    <TextView
+        android:id="@+id/tv_serviceStation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="你好服务站"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tm_imlab_texture_folder_arrow"/>
+</LinearLayout>
