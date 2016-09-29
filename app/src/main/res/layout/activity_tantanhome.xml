@@ -8,7 +8,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <com.lizhi.demo.view.ViewDragHelperView
             android:layout_width="match_parent"
@@ -18,7 +21,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:text="12121212\n1212121\n212\n1212\n212121212\n1212121212121\n212121\n212121212\n1212121212121212121212121212121212\n\n\n2121212121212\n12121212\n1212121212121212\n12121212121212121212\n121212121212121\n21212121212121\n21212121212\n12121212\n121212121212121\n2121212121\n21212121\n2121212"/>
+                android:text="12121212\n1212121\n212\n1212\n212121212\n1212121212121\n212121\n212121212\n1212121212121212121212121212121212\n\n\n2121212121212\n12121212\n1212121212121212\n12121212121212121212\n121212121212121\n21212121212121\n21212121212\n12121212\n121212121212121\n2121212121\n21212121\n2121212"
+                android:id="@+id/textView" />
 
             <TextView
                 android:id="@+id/tv_1"
