@@ -11,13 +11,30 @@
         android:layout_height="80.0dip"
         android:background="@drawable/ic_favorite_black_24dp" />
 
-    <TextView
-        android:id="@+id/tv_demo"
-        android:layout_width="80.0dip"
-        android:layout_height="80.0dip"
-        android:background="?selectableItemBackground"
-        android:gravity="center"
-        android:text="你好，再见" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_demo"
+            android:layout_width="80.0dip"
+            android:layout_height="80.0dip"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:text="你好，再见" />
+
+        <com.lizhi.demo.view.DrawableRadioButton
+            android:id="@+id/drawableRadioButton"
+            android:layout_width="80dp"
+            android:checked="true"
+            android:layout_height="80dp"
+            android:drawableLeft="@drawable/ic_favorite_black_24dp"
+            android:drawableRight="@drawable/search_ic" />
+
+    </LinearLayout>
+
+
     <ImageView
         android:id="@+id/img_open"
         android:layout_width="fill_parent"
