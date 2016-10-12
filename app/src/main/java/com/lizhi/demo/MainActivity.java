@@ -1,6 +1,8 @@
 package com.lizhi.demo;
 
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,13 +43,24 @@ public class MainActivity extends BaseActivity {
 //        startActivity(PersonalActivity.class);
 
 //        startActivity(TimeTextViewActivity.class);
-        startActivity(OkHttpActivity.class);
+//        startActivity(OkHttpActivity.class);
 //        startActivity(NormalH5Activity.class);
 //        startActivity(TabViewPagerActivity.class);
 
 //        startActivity(ElevationActivity.class);
 //        startActivity(StackViewDemoActivity.class);
 //        startActivity(TanTanMainActivity.class);
+
+
+        Intent localIntent = new Intent(this, TanTanMainActivity.class);
+        ActivityOptionsCompat localActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, findViewById(R.id.img_open), TanTanMainActivity.TRANSIT_PIC);
+        try {
+            ActivityCompat.startActivity(this, localIntent, localActivityOptionsCompat.toBundle());
+            return;
+        } catch (IllegalArgumentException localIllegalArgumentException) {
+            localIllegalArgumentException.printStackTrace();
+            startActivity(localIntent);
+        }
 
     }
 

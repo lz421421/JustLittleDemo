@@ -2,6 +2,7 @@ package com.lizhi.demo.tantan.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.view.View;
@@ -34,12 +35,14 @@ public class TanTanMainActivity extends BaseActivity implements View.OnClickList
     LinearLayout ll_img;
 
     SlidingPaneLayout slidingPaneLayout;
+    public static final String TRANSIT_PIC = "picture";
 
     @Override
     public void setContentView() {
         setContentView(R.layout.activity_tantanhome);
         findViewById(R.id.tv_1).setOnClickListener(this);
         findViewById(R.id.tv_2).setOnClickListener(this);
+        ViewCompat.setTransitionName(findViewById(R.id.img_open_target), TRANSIT_PIC);
 
     }
 

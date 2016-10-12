@@ -21,13 +21,13 @@
           android:layout_width = "wrap_content"
           android:layout_height = "wrap_content"
           android:text = "前一张"/>
-  
-  <Button
-          android:id = "@+id/nextButton"
-          android:layout_width = "wrap_content"
-          android:layout_height = "wrap_content"
-          android:text = "后一张"/>
-  
+
+    <Button
+            android:id = "@+id/nextButton"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "后一张"/>
+
   </LinearLayout>
   
 </LinearLayout>

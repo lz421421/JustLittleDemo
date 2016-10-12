@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/img_open_target"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/goods_sample"
+        android:layout_height="200dp" />
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
 
         <com.lizhi.demo.view.ViewDragHelperView
             android:layout_width="match_parent"
@@ -19,115 +26,58 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:text="12121212\n1212121\n212\n1212\n212121212\n1212121212121\n212121\n212121212\n1212121212121212121212121212121212\n\n\n2121212121212\n12121212\n1212121212121212\n12121212121212121212\n121212121212121\n21212121212121\n21212121212\n12121212\n121212121212121\n2121212121\n21212121\n2121212"
-                android:id="@+id/textView" />
+                android:text="12121212\n1212121\n212\n1212\n212121212\n1212121212121\n212121\n212121212\n1212121212121212121212121212121212\n\n\n2121212121212\n12121212\n1212121212121212\n12121212121212121212\n121212121212121\n21212121212121\n21212121212\n12121212\n121212121212121\n2121212121\n21212121\n2121212" />
 
             <TextView
                 android:id="@+id/tv_1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#ff0000"/>
+                android:background="#ff0000" />
 
 
             <com.lizhi.demo.view.CircleRotateView
                 android:id="@+id/tv_2"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#00ff00"/>
+                android:background="#00ff00" />
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#ff0000"/>
+                android:background="#ff0000" />
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#00ff00"/>
+                android:background="#00ff00" />
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#ff0000"/>
+                android:background="#ff0000" />
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#00ff00"/>
+                android:background="#00ff00" />
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#ff0000"/>
+                android:background="#ff0000" />
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#00ff00"/>
+                android:background="#00ff00" />
         </com.lizhi.demo.view.ViewDragHelperView>
 
 
     </ScrollView>
 
-    <!--    <LinearLayout
-            android:id="@+id/ll_img"
-            android:layout_width="match_parent"
-            android:layout_height="290dp"
-            android:padding="20dp">
-
-            <ImageView
-                android:id="@+id/vp_imgs"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/goods_sample"
-                ></ImageView>
-        </LinearLayout>
 
 
-        <RelativeLayout
-            android:id="@+id/rl_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp_header"
-                android:layout_width="match_parent"
-                android:layout_height="290dp"
-                android:layout_alignParentTop="true"
-                />
-
-            <ScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <View
-                        android:id="@+id/view_place"
-                        android:layout_width="wrap_content"
-                        android:layout_height="290dp"></View>
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="科技时打算；扩大是放假啊反抗了就\n是的发卡就啊是的发卡了就啊斯蒂芬\n的发卡就啊是路附近啊斯蒂芬了\n考虑到福建达利桑德菲\n；两地分居啊沙发哈斯勒\n代华纳\n；肯德基是否卡机\n肯德基是否离开家阿斯蒂芬\n肯德基是否刻录机啊岁\n快点放假刷卡结算的发卡鸡丝豆腐\n快乐圣诞节反抗拉萨觉得发酒疯\n；的发卡加速卡司法局阿萨德附近\n阿斯顿开飞机as国防科技阿萨德\n看见pot骄傲就\n破解是否噶就\n破at个房间啊放假啊\n哦天飞机ask都感觉\n大宋副科级啊岁的看风景\n打扫房间阿克苏跌幅较大跌幅近阿康第三方杰拉德是放假啊迪斯科法\n山东路附近啊阿萨德附近打算\n大连市激发dsfja\nsdfdfk\nldasfl费\n解的是\n那份\n快\n乐集\n散\n地\n反抗了\n就被送到\n购\n房款\n了就\n把手gkj"/>
-                </LinearLayout>
-
-
-            </ScrollView>
-
-
-        </RelativeLayout>-->
-
-
-</RelativeLayout>
+</LinearLayout>

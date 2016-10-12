@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="80dp"
-        android:background="@drawable/ic_favorite_black_24dp"
-        android:layout_height="80dp"/>
+        android:id="@+id/tv_心情"
+        style="?attr/toolbarNavigationButtonStyle"
+        android:layout_width="80.0dip"
+        android:layout_height="80.0dip"
+        android:background="@drawable/ic_favorite_black_24dp" />
 
+    <TextView
+        android:id="@+id/tv_demo"
+        android:layout_width="80.0dip"
+        android:layout_height="80.0dip"
+        android:background="?selectableItemBackground"
+        android:gravity="center"
+        android:text="你好，再见" />
+    <ImageView
+        android:id="@+id/img_open"
+        android:layout_width="fill_parent"
+        android:layout_height="160.0dip"
+        android:background="?selectableItemBackground"
+        android:gravity="center"
+        android:src="@drawable/goods_sample" />
 
     <Button
+        style="?attr/toolbarNavigationButtonStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="60.0dip"
         android:onClick="button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+        android:text="点击" />
 
     <FrameLayout
         android:id="@+id/fl_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
-
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 </LinearLayout>
