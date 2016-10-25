@@ -12,6 +12,7 @@ import android.view.View;
 import com.lizhi.demo.chaoshidemo.HomeFragment;
 import com.lizhi.demo.coordinatorlayout_behavior.MyTextView;
 import com.lizhi.demo.h5.activity.NormalH5Activity;
+import com.lizhi.demo.observ.ObservActivity;
 import com.lizhi.demo.okhttp.activity.OkHttpActivity;
 import com.lizhi.demo.simple_demo.ElevationActivity;
 import com.lizhi.demo.tab_viewpager.activity.TabViewPagerActivity;
@@ -52,7 +53,7 @@ public class MainActivity extends BaseActivity {
 //        startActivity(TanTanMainActivity.class);
 
 
-        Intent localIntent = new Intent(this, TanTanMainActivity.class);
+     /*   Intent localIntent = new Intent(this, TanTanMainActivity.class);
         ActivityOptionsCompat localActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, findViewById(R.id.img_open), TanTanMainActivity.TRANSIT_PIC);
         try {
             ActivityCompat.startActivity(this, localIntent, localActivityOptionsCompat.toBundle());
@@ -60,7 +61,9 @@ public class MainActivity extends BaseActivity {
         } catch (IllegalArgumentException localIllegalArgumentException) {
             localIllegalArgumentException.printStackTrace();
             startActivity(localIntent);
-        }
+        }*/
+
+        startActivity(ObservActivity.class);
 
     }
 

@@ -71,6 +71,7 @@
         <activity android:name=".simple_demo.ElevationActivity"></activity>
         <activity android:name=".tantan.activity.TanTanMainActivity"></activity>
         <activity android:name=".tantan.activity.StackViewDemoActivity"></activity>
+        <activity android:name=".observ.ObservActivity"></activity>
     </application>
 
 </manifest>
