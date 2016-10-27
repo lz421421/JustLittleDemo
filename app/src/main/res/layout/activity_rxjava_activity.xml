@@ -6,9 +6,10 @@
 
     <ImageView
         android:id="@+id/img_showImg"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/btn_subscriber"

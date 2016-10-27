@@ -11,11 +11,14 @@ import android.widget.TextView;
 
 import com.lizhi.demo.BaseActivity;
 import com.lizhi.demo.R;
+import com.lizhi.demo.observ.User;
 import com.lizhi.demo.utils.LogUtil;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
@@ -109,12 +112,69 @@ public class RxJavaActivity extends BaseActivity {
         btn_subscriber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                observable.subscribe(subscriber);
+           /*     observable.subscribe(subscriber);
                 observable.subscribe(onNextAction);
                 fromTest();
                 showImgTest();
                 mapTest();
+                mapTest2();*/
+                flatMap();
 //                schedukersTest();
+            }
+        });
+    }
+
+    public List<Student> initStudent() {
+        List<Student> students = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            Student student = new Student("student" + i);
+            List<Course> courses = new ArrayList<>();
+            for (int j = 0; j < 4; j++) {
+                Course course = new Course("Course" + j);
+                courses.add(course);
+            }
+            student.courses = courses;
+            students.add(student);
+        }
+        return students;
+    }
+
+    public void flatMap() {
+        Observable.from(initStudent()).flatMap(new Func1<Student, Observable<Course>>() {
+            @Override
+            public Observable<Course> call(Student student) {
+                LogUtil.log("----------student.name----->" + student.name);
+                return Observable.from(student.courses);
+            }
+        }).subscribe(new Action1<Course>() {
+            @Override
+            public void call(Course course) {
+                LogUtil.log("------------flatMap----course.courseName---->" + course.courseName);
+            }
+        });
+    }
+
+    public void mapTest2() {
+        User[] users = new User[]{new User("1"), new User("2"), new User("3"), new User("4")};
+        Observable.from(users).map(new Func1<User, String>() {
+            @Override
+            public String call(User user) {
+                return user.name;
+            }
+        }).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+                LogUtil.log("---------mapTest2-onCompleted------->");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(String name) {
+                LogUtil.log("------mapTest2----onNext---name---->" + name);
             }
         });
     }
@@ -128,12 +188,14 @@ public class RxJavaActivity extends BaseActivity {
                 //获取网络图片 返回bitmap
                 return getBitMapFromNet(path);
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Bitmap>() {
-            @Override
-            public void call(Bitmap bitmap) {
-                img.setImageBitmap(bitmap);
-            }
-        });
+        }).subscribeOn(Schedulers.io())//在子线程订阅
+                .observeOn(AndroidSchedulers.mainThread())//在主线程回调
+                .subscribe(new Action1<Bitmap>() {
+                    @Override
+                    public void call(Bitmap bitmap) {
+                        img.setImageBitmap(bitmap);
+                    }
+                });
     }
 
     public Bitmap getBitMapFromNet(String path) {
@@ -187,11 +249,11 @@ public class RxJavaActivity extends BaseActivity {
             @Override
             public void call(Subscriber<? super Drawable> subscriber) {//加载在线程
                 LogUtil.log("----showImgTest--->" + Thread.currentThread() + "--->");
-                try {
+             /*   try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
                 LogUtil.log("----showImgTest--->" + Thread.currentThread() + "--->");
                 Drawable drawable = getTheme().getDrawable(drawableId);
                 subscriber.onNext(drawable);
