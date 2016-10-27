@@ -26,6 +26,7 @@ public class ObservActivity extends BaseActivity implements View.OnClickListener
         user = new User("张三");
         user.addObserver(observerTextView);
         user.addObserver(this);
+
     }
 
     @Override

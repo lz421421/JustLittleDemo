@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.lizhi.demo"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lizhi.demo">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
@@ -72,6 +71,8 @@
         <activity android:name=".tantan.activity.TanTanMainActivity"></activity>
         <activity android:name=".tantan.activity.StackViewDemoActivity"></activity>
         <activity android:name=".observ.ObservActivity"></activity>
+
+        <activity android:name=".rxjava.RxJavaActivity"></activity>
     </application>
 
 </manifest>
