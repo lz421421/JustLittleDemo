@@ -1,6 +1,8 @@
 package com.lizhi.demo;
 
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import com.lizhi.demo.chaoshidemo.HomeFragment;
 import com.lizhi.demo.coordinatorlayout_behavior.MyTextView;
 import com.lizhi.demo.fresco.activity.FrescoActivity;
 import com.lizhi.demo.rxjava.RxJavaActivity;
+import com.lizhi.demo.tantan.activity.TanTanMainActivity;
 import com.lizhi.demo.utils.LogUtil;
 import com.lizhi.demo.view.RectProgressView;
 
@@ -100,7 +103,17 @@ public class MainActivity extends BaseActivity {
 //        startActivity(ObservActivity.class);
 //        startActivity(RxJavaActivity.class);
 
-        startActivity(FrescoActivity.class);
+
+//切换Activity动画
+        Intent localIntent = new Intent(this, FrescoActivity.class);
+        ActivityOptionsCompat localActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, findViewById(R.id.img_open), FrescoActivity.TRANSIT_PIC);
+        try {
+            ActivityCompat.startActivity(this, localIntent, localActivityOptionsCompat.toBundle());
+            return;
+        } catch (IllegalArgumentException localIllegalArgumentException) {
+            localIllegalArgumentException.printStackTrace();
+            startActivity(localIntent);
+        }
 
 
     }

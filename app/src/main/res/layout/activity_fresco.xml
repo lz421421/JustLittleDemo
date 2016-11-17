@@ -12,10 +12,21 @@
         fresco:placeholderImage="@color/green" />
 
     <Button
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:onClick="paly"
+        android:text="播放" />
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:gravity="center"
+        android:onClick="paly"
+        android:src="@drawable/goods_sample"
         android:text="播放" />
 
 

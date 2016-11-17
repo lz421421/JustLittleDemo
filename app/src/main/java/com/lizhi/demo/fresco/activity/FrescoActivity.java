@@ -3,6 +3,7 @@ package com.lizhi.demo.fresco.activity;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -23,6 +24,7 @@ import com.lizhi.demo.utils.LogUtil;
 public class FrescoActivity extends BaseActivity {
     SimpleDraweeView img_icon;
     DraweeController draweeController;
+    public static final String TRANSIT_PIC = "picture";
 
 
     @Override
@@ -51,7 +53,7 @@ public class FrescoActivity extends BaseActivity {
                         .build();
         img_icon.setController(draweeController);
 
-
+        ViewCompat.setTransitionName(findViewById(R.id.img), TRANSIT_PIC);
     }
 
 
