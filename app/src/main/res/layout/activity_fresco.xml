@@ -1,15 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/img_icon"
         android:layout_width="match_parent"
-        fresco:placeholderImage="@drawable/goods_sample"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp"
+        fresco:placeholderImage="@color/green" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="paly"
+        android:text="播放" />
+
+
+    <!--    <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/my_image_view"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            fresco:fadeDuration="300"
+            fresco:actualImageScaleType="focusCrop"
+            fresco:placeholderImage="@color/green"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:failureImage="@drawable/live_like_a"
+            fresco:failureImageScaleType="centerInside"
+            fresco:retryImage="@drawable/retrying"
+            fresco:retryImageScaleType="centerCrop"
+            fresco:progressBarImage="@drawable/progress_bar"
+            fresco:progressBarImageScaleType="centerInside"
+            fresco:progressBarAutoRotateInterval="1000"
+            fresco:backgroundImage="@color/blue"
+            fresco:overlayImage="@drawable/watermark"
+            fresco:pressedStateOverlayImage="@color/red"
+            fresco:roundAsCircle="false"
+            fresco:roundedCornerRadius="1dp"
+            fresco:roundTopLeft="true"
+            fresco:roundTopRight="false"
+            fresco:roundBottomLeft="false"
+            fresco:roundBottomRight="true"
+            fresco:roundWithOverlayColor="@color/corner_color"
+            fresco:roundingBorderWidth="2dp"
+            fresco:roundingBorderColor="@color/border_color"
+            />-->
 
 </LinearLayout>

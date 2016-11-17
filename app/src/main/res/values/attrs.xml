@@ -6,33 +6,48 @@
     </declare-styleable>
 
     <declare-styleable name="Follow">
-        <attr name="target" format="reference"/>
+        <attr name="target" format="reference" />
     </declare-styleable>
 
 
     <declare-styleable name="MyViewPager">
-        <attr name="isLoop" format="boolean"/>
+        <attr name="isLoop" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="Gif">
-        <attr name="gif" format="reference"/>
+        <attr name="gif" format="reference" />
     </declare-styleable>
 
 
     <declare-styleable name="NormalView">
-        <attr name="leftIcon" format="reference"/>
-        <attr name="rightIcon" format="reference"/>
-        <attr name="leftText" format="string"/>
-        <attr name="rightText" format="string"/>
+        <attr name="leftIcon" format="reference" />
+        <attr name="rightIcon" format="reference" />
+        <attr name="leftText" format="string" />
+        <attr name="rightText" format="string" />
     </declare-styleable>
 
 
-    <declare-styleable name="TimeTextView">
-    </declare-styleable>
+    <declare-styleable name="TimeTextView"></declare-styleable>
 
 
     <declare-styleable name="RoundView">
-        <attr name="inColor" format="color|reference"/>
+        <attr name="inColor" format="color|reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ProgressView">
+        <!--circleColor 设置圆形边框的颜色 sweepColor设置扇形变换的颜色 5 startAngle 设置起始角度 sweepStep 设置变换的步长-->
+        <attr name="circleColor" format="color|reference"></attr>
+        <attr name="sweepColor" format="color|reference"></attr>
+        <attr name="startAngle" format="integer"></attr>
+        <attr name="sweepStep" format="integer"></attr>
+        <attr name="padding" format="integer"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="RectProgressView">
+        <attr name="sweepBgColor" format="color|reference"></attr>
+        <attr name="maxLenth" format="integer"></attr>
+        <attr name="upDataHeight" format="integer"></attr>
     </declare-styleable>
 
 </resources>

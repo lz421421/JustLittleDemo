@@ -7,10 +7,15 @@ import android.view.View;
 
 import com.lizhi.demo.chaoshidemo.HomeFragment;
 import com.lizhi.demo.coordinatorlayout_behavior.MyTextView;
+import com.lizhi.demo.fresco.activity.FrescoActivity;
 import com.lizhi.demo.rxjava.RxJavaActivity;
+import com.lizhi.demo.utils.LogUtil;
+import com.lizhi.demo.view.RectProgressView;
 
 public class MainActivity extends BaseActivity {
     MyTextView first;
+
+    RectProgressView rectProgressView;
 
     @Override
     public void setContentView() {
@@ -29,8 +34,41 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+        findViewById(R.id.tv_心情).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("心情");
+            }
+        });
+        rectProgressView = (RectProgressView) findViewById(R.id.rpv_progress);
+        rectProgressView.setMaxLenth(100);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (upData <= 100) {
+                    upData += 5;
+                    try {
+
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                rectProgressView.upDataHeight(upData);
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (upData == 100) {
+                        break;
+                    }
+                }
+            }
+        }).start();
     }
 
+    int upData = 0;
 
     public void button(View view) {
 //        startActivity(IpcActivity.class);
@@ -60,7 +98,9 @@ public class MainActivity extends BaseActivity {
         }*/
 
 //        startActivity(ObservActivity.class);
-        startActivity(RxJavaActivity.class);
+//        startActivity(RxJavaActivity.class);
+
+        startActivity(FrescoActivity.class);
 
 
     }

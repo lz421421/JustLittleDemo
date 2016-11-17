@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_心情"
-        style="?attr/toolbarNavigationButtonStyle"
-        android:layout_width="80.0dip"
-        android:layout_height="80.0dip"
-        android:background="@drawable/ic_favorite_black_24dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_心情"
+            style="?attr/toolbarNavigationButtonStyle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/goods_sample" />
+
+        <com.lizhi.demo.view.RectProgressView
+            android:id="@+id/rpv_progress"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:clickable="false"
+            app:sweepBgColor="#60000000" />
+
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,8 +44,8 @@
         <com.lizhi.demo.view.DrawableRadioButton
             android:id="@+id/drawableRadioButton"
             android:layout_width="80dp"
-            android:checked="true"
             android:layout_height="80dp"
+            android:checked="true"
             android:drawableLeft="@drawable/ic_favorite_black_24dp"
             android:drawableRight="@drawable/search_ic" />
 
