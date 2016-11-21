@@ -21,8 +21,8 @@ public class MyApplication extends Application {
         super.onCreate();
         myApplication = this;
 
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
+     /*   CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);*/
 
         Fresco.initialize(this);
     }

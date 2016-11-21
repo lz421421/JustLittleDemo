@@ -10,6 +10,7 @@ import android.view.View;
 import com.lizhi.demo.chaoshidemo.HomeFragment;
 import com.lizhi.demo.coordinatorlayout_behavior.MyTextView;
 import com.lizhi.demo.fresco.activity.FrescoActivity;
+import com.lizhi.demo.recyleView.activity.RecycleViewActivity;
 import com.lizhi.demo.rxjava.RxJavaActivity;
 import com.lizhi.demo.tantan.activity.TanTanMainActivity;
 import com.lizhi.demo.utils.LogUtil;
@@ -105,7 +106,7 @@ public class MainActivity extends BaseActivity {
 
 
 //切换Activity动画
-        Intent localIntent = new Intent(this, FrescoActivity.class);
+  /*      Intent localIntent = new Intent(this, FrescoActivity.class);
         ActivityOptionsCompat localActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, findViewById(R.id.img_open), FrescoActivity.TRANSIT_PIC);
         try {
             ActivityCompat.startActivity(this, localIntent, localActivityOptionsCompat.toBundle());
@@ -113,7 +114,10 @@ public class MainActivity extends BaseActivity {
         } catch (IllegalArgumentException localIllegalArgumentException) {
             localIllegalArgumentException.printStackTrace();
             startActivity(localIntent);
-        }
+        }*/
+
+
+        startActivity(RecycleViewActivity.class);
 
 
     }

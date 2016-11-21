@@ -1,5 +1,6 @@
 package com.lizhi.demo.fresco.activity;
 
+import android.graphics.Color;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -53,7 +54,10 @@ public class FrescoActivity extends BaseActivity {
                         .build();
         img_icon.setController(draweeController);
 
-        ViewCompat.setTransitionName(findViewById(R.id.img), TRANSIT_PIC);
+        ImageView img = (ImageView) findViewById(R.id.img);
+        img.setColorFilter(Color.parseColor("#77000000"));
+//        img.setColorFilter(null);
+        ViewCompat.setTransitionName(img, TRANSIT_PIC);
     }
 
 
