@@ -1,6 +1,7 @@
 package com.lizhi.demo.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,6 +15,7 @@ import com.facebook.rebound.SimpleSpringListener;
 import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
+import com.lizhi.demo.R;
 import com.lizhi.demo.utils.LogUtil;
 
 /**
@@ -23,14 +25,24 @@ import com.lizhi.demo.utils.LogUtil;
 public class CircleRotateView extends View {
 
     Paint mPaint;
+    float strokeWidth = 10;
+    int color = 0x666666;
+    boolean isStart = false;
 
     public CircleRotateView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircleRotateView);
+        if (typedArray != null) {
+            strokeWidth = typedArray.getDimension(R.styleable.CircleRotateView_strokeWidth, strokeWidth);
+            color = typedArray.getColor(R.styleable.CircleRotateView_strokeColor, color);
+            typedArray.recycle();
+        }
+
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.RED);
+        mPaint.setColor(color);
         mPaint.setAntiAlias(true);
-        mPaint.setStrokeWidth(10);
+        mPaint.setStrokeWidth(strokeWidth);
     }
 
     public CircleRotateView(Context context) {
@@ -79,17 +91,26 @@ public class CircleRotateView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         int width = getWidth();
         int height = getHeight();
         float cWidth = (float) (width * 0.6);
         float cHeight = (float) (height * 0.6);
         RectF rectF = new RectF((width - cWidth) / 2, (height - cHeight) / 2, (width + cWidth) / 2, (height + cHeight) / 2);
-        canvas.drawArc(rectF, 270 + 5 * i, (float) 240, false, mPaint);
-        i++;
+        canvas.drawArc(rectF, 270 + i, (float) 240, false, mPaint);
+        if (isStart) {
+            i += 5;
+            postInvalidate();
+        }
+    }
+
+    public void isStart(boolean isStart) {
+        this.isStart = isStart;
         postInvalidate();
+    }
 
-
+    public void setProgress(int progress) {
+        i += progress;
+        postInvalidate();
     }
 
 

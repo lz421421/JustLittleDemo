@@ -50,4 +50,9 @@
         <attr name="upDataHeight" format="integer"></attr>
     </declare-styleable>
 
+    <declare-styleable name="CircleRotateView">
+        <attr name="strokeWidth" format="dimension"></attr>
+        <attr name="strokeColor" format="color|reference"></attr>
+    </declare-styleable>
+
 </resources>

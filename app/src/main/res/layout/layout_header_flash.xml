@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:CircleRotateView="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_header_flash"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
+    android:layout_height="1px"
     android:background="@color/blue"
     android:gravity="bottom|center_horizontal"
     android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/ll_header_content"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:gravity="center"
@@ -15,14 +17,24 @@
 
 
         <com.lizhi.demo.view.CircleRotateView
+            android:id="@+id/crv_header_falsh"
             android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_height="30dp"
+            CircleRotateView:strokeColor="#666666"
+            CircleRotateView:strokeWidth="2dp" />
 
         <TextView
             android:id="@+id/tv_header_flash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="下拉刷新"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_header_flash_point"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:text=""
             android:textColor="@color/white" />
     </LinearLayout>
 
