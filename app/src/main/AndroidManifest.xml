@@ -75,6 +75,8 @@
         <activity android:name=".rxjava.RxJavaActivity"></activity>
 
         <activity android:name=".recyleView.activity.RecycleViewActivity"></activity>
+
+        <activity android:name=".recyleView.activity.XRecycleViewActivity"></activity>
     </application>
 
 </manifest>

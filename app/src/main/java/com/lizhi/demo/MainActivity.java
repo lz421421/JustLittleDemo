@@ -11,6 +11,7 @@ import com.lizhi.demo.chaoshidemo.HomeFragment;
 import com.lizhi.demo.coordinatorlayout_behavior.MyTextView;
 import com.lizhi.demo.fresco.activity.FrescoActivity;
 import com.lizhi.demo.recyleView.activity.RecycleViewActivity;
+import com.lizhi.demo.recyleView.activity.XRecycleViewActivity;
 import com.lizhi.demo.rxjava.RxJavaActivity;
 import com.lizhi.demo.tantan.activity.TanTanMainActivity;
 import com.lizhi.demo.utils.LogUtil;
@@ -117,7 +118,8 @@ public class MainActivity extends BaseActivity {
         }*/
 
 
-        startActivity(RecycleViewActivity.class);
+//        startActivity(RecycleViewActivity.class);
+        startActivity(XRecycleViewActivity.class);
 
 
     }

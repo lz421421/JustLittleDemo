@@ -3,16 +3,16 @@
     xmlns:CircleRotateView="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_header_flash"
     android:layout_width="match_parent"
-    android:layout_height="1px"
+    android:layout_height="wrap_content"
     android:background="@color/blue"
     android:gravity="bottom|center_horizontal"
     android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/ll_header_content"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:gravity="bottom|center_horizontal"
         android:orientation="horizontal">
 
 
@@ -26,7 +26,8 @@
         <TextView
             android:id="@+id/tv_header_flash"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center"
             android:text="下拉刷新"
             android:textColor="@color/white" />
 
@@ -34,7 +35,7 @@
             android:id="@+id/tv_header_flash_point"
             android:layout_width="15dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="..."
             android:textColor="@color/white" />
     </LinearLayout>
 

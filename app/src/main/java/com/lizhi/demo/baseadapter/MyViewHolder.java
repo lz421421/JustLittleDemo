@@ -17,11 +17,9 @@ public class MyViewHolder {
     private final SparseArray<View> mViews;
     private View mConvertView;
 
-    private MyViewHolder(Context context, ViewGroup parent, int layoutId,
-                         int position) {
+    private MyViewHolder(Context context, ViewGroup parent, int layoutId,int position) {
         this.mViews = new SparseArray<View>();
-        mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,
-                false);
+        mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,false);
         //setTag
         mConvertView.setTag(this);
 
