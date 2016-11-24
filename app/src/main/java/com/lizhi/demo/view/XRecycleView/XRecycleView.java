@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.lizhi.demo.R;
 import com.lizhi.demo.utils.DensityUtil;
@@ -31,6 +32,7 @@ public class XRecycleView extends RecyclerView {
     private static List<View> headerView;
     LinearLayoutManager mLayoutManager;
     private static final float DRAG_RATE = 2.5f;
+    private static final float DRAG_RATE_FOOTER = 1.5f;
     static XRecycleViewHeaderLayout headerFlashView;
     static XRecycleViewFooterLayout footerView;
     private float mLastY = -1; //记录的Y坐标
@@ -41,8 +43,6 @@ public class XRecycleView extends RecyclerView {
 
     public XRecycleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        headerFlashView = new XRecycleViewHeaderLayout(context);
-        footerView = new XRecycleViewFooterLayout(context);
     }
 
     public static int getHeaderViewSize() {
@@ -88,37 +88,64 @@ public class XRecycleView extends RecyclerView {
         float y = event.getRawY();
         int action = event.getAction();
         float deltaY = y - mLastY;
+        mLastY = y;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
 //                mLastY = event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (isTopDrageDown(deltaY)) {
+                headerFlashView.setProgress((int) deltaY);
+                //往下拉 增加高度 屏蔽事件 ==0 >=0  ==1 >=0
+                if (isTopDrageDown(deltaY) || isTopDrageDown_(deltaY)) {
                     headerFlashView.setHeightAdd((int) (deltaY / DRAG_RATE));
-                    headerFlashView.setProgress((int) deltaY);
-                } else if (isTopDrageUp(deltaY) && headerFlashView.getState() != XRecycleViewHeaderLayout.State.FLASHING) {
-                    mLayoutManager.scrollToPositionWithOffset(0, (int) (-deltaY));
-                    headerFlashView.setHeightAdd((int) (deltaY));
-                    headerFlashView.setProgress((int) deltaY);
+                    return true;
                 }
+                //往上滑动 减少高度  屏蔽事件  ==1 <=0
+                if (isTopDrageUp(deltaY)) {
+                    if (headerFlashView.getNowHeight() > headerFlashView.getOriginalHeigt() && headerFlashView.getState() != XRecycleViewHeaderLayout.State.FLASHING) {
+                        headerFlashView.setHeightAdd((int) (deltaY * 1.5 / DRAG_RATE));
+                        return true;
+                    } else {
+                        return super.onTouchEvent(event);
+                    }
+                }
+                int lastCompletelyVisibleItemPosition = mLayoutManager.findLastCompletelyVisibleItemPosition();
+                LogUtil.log("---lastCompletelyVisibleItemPosition--->" + lastCompletelyVisibleItemPosition + deltaY);
+                if (isBottomDrageUp(deltaY)) {
+                    footerView.setHeightAdd((int) (-deltaY / DRAG_RATE_FOOTER));
+                }
+                if (footerView != null) {
+                    footerView.setProgress((int) deltaY);
+                }
+
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 headerFlashView.closeTo(onXRecycleListener);
+                if (footerView != null) {
+                    footerView.closeTo(onXRecycleListener);
+                }
                 break;
         }
-        mLastY = y;
         return super.onTouchEvent(event);
     }
-    public void completeFlashOrLoad() {
-        headerFlashView.setState(XRecycleViewHeaderLayout.State.FLASH_COMPLETE);
-        headerFlashView.closeTo(onXRecycleListener);
-        headerFlashView.start(false);
+
+    public boolean isBottomDrageUp(float deltaY) {
+        int lastCompletelyVisibleItemPosition = mLayoutManager.findLastCompletelyVisibleItemPosition();
+        if (deltaY < 0 && (lastCompletelyVisibleItemPosition == getAdapter().getItemCount() - 1 || lastCompletelyVisibleItemPosition == getAdapter().getItemCount() - 2)) {
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void onScrolled(int dx, int dy) {
-        LogUtil.log("---------onScrolled----------->" + dy);
+    public void completeFlashOrLoad() {
+        if (headerFlashView.getState() == XRecycleViewHeaderLayout.State.FLASHING) {
+            headerFlashView.complete();
+        }
+
+        if (footerView != null && footerView.getState() == XRecycleViewFooterLayout.State.FLASHING) {
+            footerView.complete();
+        }
     }
 
     /**
@@ -126,7 +153,20 @@ public class XRecycleView extends RecyclerView {
      */
     public boolean isTopDrageDown(float deltaY) {
         int firstCompletelyVisibleItemPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-        if (firstCompletelyVisibleItemPosition == 0 && deltaY > 0) {
+        if (firstCompletelyVisibleItemPosition == 0 && deltaY >= 0) {
+            //刷新布局全部展示出来下拉
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 出现刷新布局往下拉 此时刷新布局 有一部分在屏幕外
+     */
+    public boolean isTopDrageDown_(float deltaY) {
+        int firstCompletelyVisibleItemPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
+        if (firstCompletelyVisibleItemPosition == 1 && deltaY >= 0) {
             //刷新布局全部展示出来下拉
             return true;
         }
@@ -134,15 +174,28 @@ public class XRecycleView extends RecyclerView {
     }
 
     /**
-     * 出现刷新布局 往上滑动
+     * 往下拉 刷新布局 全部展示
+     *
+     * @param deltaY
+     * @return
+     */
+    public boolean isTopDrageUp_(float deltaY) {
+        int firstCompletelyVisibleItemPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
+        if (firstCompletelyVisibleItemPosition == 0 && deltaY <= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 出现刷新布局 往上滑动 此时有一部分刷新布局已经跑到屏幕外编
      *
      * @param deltaY
      * @return
      */
     public boolean isTopDrageUp(float deltaY) {
         int firstCompletelyVisibleItemPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-        if (firstCompletelyVisibleItemPosition == 1 && deltaY < 0) {
-            //刷新布局全部展示出来下拉
+        if (firstCompletelyVisibleItemPosition == 1 && deltaY <= 0) {
             return true;
         }
         return false;
@@ -165,8 +218,25 @@ public class XRecycleView extends RecyclerView {
     @Override
     public void setLayoutManager(LayoutManager layout) {
         if (layout instanceof LinearLayoutManager) {
-            super.setLayoutManager(layout);
-            this.mLayoutManager = (LinearLayoutManager) layout;
+            if (layout instanceof GridLayoutManager) {
+                final GridLayoutManager mGridLayoutManager = (GridLayoutManager) layout;
+                mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        int spanSize = ((XRecycleViewAdapter) getAdapter()).getItemColumnSpan(position);
+                        if (spanSize == -1) {
+                            return mGridLayoutManager.getSpanCount();
+                        } else {
+                            return spanSize;
+                        }
+                    }
+                });
+                super.setLayoutManager(mGridLayoutManager);
+                this.mLayoutManager = mGridLayoutManager;
+            } else {
+                super.setLayoutManager(layout);
+                this.mLayoutManager = (LinearLayoutManager) layout;
+            }
         } else {
             throw new IllegalArgumentException("在下抱歉，目前只支持LinearLayoutManager和GridLlayoutManager");
         }
@@ -188,6 +258,18 @@ public class XRecycleView extends RecyclerView {
 
         }
 
+        final private int getItemColumnSpan(int position) {
+            switch (getItemViewType(position)) {
+                case headerFlash:
+                case footLoadMore:
+                case headerType:
+                    return -1;
+                default:
+                    return 1;
+
+            }
+        }
+
         private List<M> mDatas;
 
         public void setmDatas(List<M> mDatas) {
@@ -198,6 +280,7 @@ public class XRecycleView extends RecyclerView {
         public T onCreateViewHolder(ViewGroup parent, int viewType) {
             switch (viewType) {
                 case headerFlash:
+                    headerFlashView = new XRecycleViewHeaderLayout(parent.getContext());
                     parent.addView(headerFlashView);
                     ViewGroup.LayoutParams headerFlashView_lp = headerFlashView.getLayoutParams();
                     headerFlashView_lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -212,6 +295,7 @@ public class XRecycleView extends RecyclerView {
                     header_View.setLayoutParams(header_View_lp);
                     return (T) new XRecycleViewExtralHolder(header_View);
                 case footLoadMore:
+                    footerView = new XRecycleViewFooterLayout(parent.getContext());
                     parent.addView(footerView);
                     ViewGroup.LayoutParams footerView_lp = footerView.getLayoutParams();
                     footerView_lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -233,7 +317,7 @@ public class XRecycleView extends RecyclerView {
                 case footLoadMore:
                     break;
                 default:
-                    bindHolder(holder, position - headerView.size());
+                    bindHolder(holder, position - headerView.size() - 1);
                     break;
             }
 
@@ -244,7 +328,7 @@ public class XRecycleView extends RecyclerView {
         public abstract T createHolder(ViewGroup parent, int viewType);
 
         public void bindHolder(T holder, int position) {
-            setViewData(holder, mDatas.get(position - 1), position);
+            setViewData(holder, mDatas.get(position), position);
         }
 
         public abstract void setViewData(T t, M m, int position);
@@ -260,7 +344,7 @@ public class XRecycleView extends RecyclerView {
             if (getHeaderViewSize() > 0 && position > 0 && position <= getHeaderViewSize()) {
                 return headerType;
             }
-            return getViewType(position);
+            return getViewType(position - getHeaderViewSize() - 1);
         }
 
         public int getViewType(int position) {

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -47,9 +48,15 @@ public class XRecycleViewActivity extends BaseActivity {
 
     public void initRecycleView() {
         xRecycleView.setItemAnimator(new DefaultItemAnimator());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        xRecycleView.setLayoutManager(linearLayoutManager);
+
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+        xRecycleView.setLayoutManager(gridLayoutManager);
+
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        xRecycleView.setLayoutManager(linearLayoutManager);
+
+
         View view1 = LayoutInflater.from(this).inflate(R.layout.layout_recycleheader, null, false);
         View view2 = LayoutInflater.from(this).inflate(R.layout.layout_recycleheader, null, false);
         View view3 = LayoutInflater.from(this).inflate(R.layout.layout_recycleheader, null, false);
@@ -76,7 +83,12 @@ public class XRecycleViewActivity extends BaseActivity {
 
             @Override
             public void onLoadMore() {
-
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        xRecycleView.completeFlashOrLoad();
+                    }
+                }, 10000);
             }
         });
     }
@@ -108,21 +120,49 @@ public class XRecycleViewActivity extends BaseActivity {
 
         @Override
         public MyViewHolder createHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycleview, parent, false);
+            View view = null;
+            switch (viewType) {
+                case text:
+                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycleview, parent, false);
+                    break;
+                case img:
+                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_xrecycle_img, parent, false);
+                    break;
+            }
             return new MyViewHolder(view);
+        }
+
+        public static final int text = 101;
+        public static final int img = 103;
+
+        @Override
+        public int getViewType(int position) {
+            if (position % 3 == 0) {
+                return text;
+            } else {
+                return img;
+            }
         }
 
         @Override
         public void setViewData(MyViewHolder holder, String item, int position) {
-            holder.textView.setText(item);
+            switch (getViewType(position)) {
+                case text:
+                    holder.textView.setText(item);
+                    break;
+                case img:
+                    break;
+            }
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
+            ImageView imageView;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 textView = (TextView) itemView.findViewById(R.id.tv_content);
+                imageView = (ImageView) itemView.findViewById(R.id.image);
             }
         }
     }

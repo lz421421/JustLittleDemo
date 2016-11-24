@@ -25,12 +25,12 @@ import static com.lizhi.demo.view.XRecycleView.XRecycleViewHeaderLayout.State.FL
 public class XRecycleViewHeaderLayout extends LinearLayout {
     LinearLayout ll_header_content;
     //原始高度 初始化高度 1px
-    private int originalHeigt = 1;
+    private int originalHeigt = 0;
     //达到刷新高度的临界值
     int flashHeight;
     TextView tv_header_flash, tv_header_flash_point;
-    XRecycleView.OnXRecycleListener onXRecycleListener;
     CircleRotateView crv_header_falsh;
+
 
     public XRecycleViewHeaderLayout(Context context) {
         super(context);
@@ -48,18 +48,21 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
         crv_header_falsh = (CircleRotateView) findViewById(R.id.crv_header_falsh);
     }
 
+    public int getOriginalHeigt() {
+        return originalHeigt;
+    }
 
     public int getNowHeight() {
-        return ll_header_content.getLayoutParams().height;
+        LinearLayout.LayoutParams lp = (LayoutParams) ll_header_content.getLayoutParams();
+        return lp.topMargin;
     }
 
     public void setHeightAdd(int addSize) {
         LayoutParams lp = (LayoutParams) ll_header_content.getLayoutParams();
-        lp.height += addSize;
-        if (lp.height < originalHeigt) {
-            lp.height = originalHeigt;
+        lp.topMargin += addSize;
+        if (lp.topMargin < originalHeigt) {
+            lp.topMargin = originalHeigt;
         }
-        ll_header_content.setLayoutParams(lp);
         if (getState() != State.FLASHING) {
             if (getNowHeight() >= flashHeight) {
                 setState(CAN_FLASH);
@@ -67,15 +70,25 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
                 setState(NO_CAN_FLASH);
             }
         }
+        ll_header_content.setLayoutParams(lp);
     }
 
+    /**
+     * 开始刷新
+     * @param isStart
+     */
     public void start(boolean isStart) {
+        if (isStart){
+            setState(FLASHING);
+        }else {
+            setState(XRecycleViewHeaderLayout.State.FLASH_COMPLETE);
+        }
         crv_header_falsh.isStart(isStart);
         tv_header_flash.setText(state.text);
-        if (isStart){
+        if (isStart) {
             setPointText();
-        }else {
-            if (handler !=null){
+        } else {
+            if (handler != null) {
                 handler.removeCallbacks(runnable);
             }
         }
@@ -110,9 +123,14 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
         crv_header_falsh.setProgress(progress);
     }
 
+    public void complete(){
+        start(false);
+        closeTo(null);
+    }
+
     public void setNowHeight(int height) {
         LayoutParams lp = (LayoutParams) ll_header_content.getLayoutParams();
-        lp.height = height;
+        lp.topMargin = height;
         ll_header_content.setLayoutParams(lp);
     }
 
@@ -146,7 +164,6 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
                 if (values == finalTo) {
                     switch (state) {
                         case CAN_FLASH:
-                            setState(FLASHING);
                             start(true);
                             xRecycleListener.onFlash();
                             break;
