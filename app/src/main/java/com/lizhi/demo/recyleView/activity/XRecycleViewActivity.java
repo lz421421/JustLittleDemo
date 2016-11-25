@@ -81,7 +81,7 @@ public class XRecycleViewActivity extends BaseActivity {
                         for (int i = 0; i < 2; i++) {
                             addData.add("这是第" + j + "次新增加的" + i);
                         }
-                        abcAdapter.notifyItemRangeInserted(j, addData);
+                        abcAdapter.notifyItemRangeInserted(0, addData);
                         xRecycleView.completeFlashOrLoad();
                         j++;
                         if (j == 5) {
@@ -111,8 +111,9 @@ public class XRecycleViewActivity extends BaseActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                abcAdapter.notifyItemRemove(2);
+//                abcAdapter.notifyItemRemove(2);
 //                abcAdapter.notifyItemInserted(1, "1212");
+                abcAdapter.notifyItemRangeRemove(2, 4);
             }
         });
     }

@@ -293,6 +293,9 @@ public class XRecycleView extends RecyclerView {
          * @param m
          */
         final public void notifyItemInserted(int position, M m) {
+            if (mDatas == null) {
+                mDatas = new ArrayList<>();
+            }
             mDatas.add(position, m);
             notifyItemInserted(position + 1 + mXrecycleView.getHeaderViewSize());
             notifyItemChange(position, m);
@@ -301,7 +304,7 @@ public class XRecycleView extends RecyclerView {
         /**
          * 指定位置增加 数据
          *
-         * @param start    指定位置
+         * @param start    指定位置 这个position是去掉headerSize开始算起的
          * @param addItems
          */
         final public void notifyItemRangeInserted(int start, List<M> addItems) {
@@ -319,7 +322,7 @@ public class XRecycleView extends RecyclerView {
         }
 
         /**
-         * 指定为位置修改数据
+         * 指定为位置修改数据 这个position是去掉headerSize开始算起的
          *
          * @param position
          * @param m
@@ -334,11 +337,28 @@ public class XRecycleView extends RecyclerView {
         }
 
         /**
+         * 批量移除
+         *
+         * @param startPosition 这个position是去掉headerSize开始算起的(包括)
+         * @param endPosition   不包括
+         */
+        final public void notifyItemRangeRemove(int startPosition, int endPosition) {
+            if (mDatas == null) {
+                throw new IllegalArgumentException("瞎J8删除！！你TM有数据吗");
+            }
+            mDatas.subList(startPosition, endPosition).clear();
+            notifyItemRangeRemoved(startPosition + 1 + mXrecycleView.getHeaderViewSize(), endPosition + 1 + mXrecycleView.getHeaderViewSize());
+        }
+
+        /**
          * 移除指定位置的数据  这个position是去掉headerSize开始算起的
          *
          * @param position
          */
         final public void notifyItemRemove(int position) {
+            if (mDatas == null) {
+                throw new IllegalArgumentException("瞎J8删除！！你TM有数据吗");
+            }
             mDatas.remove(position);
             notifyItemRemoved(position + 1 + mXrecycleView.getHeaderViewSize());
         }
