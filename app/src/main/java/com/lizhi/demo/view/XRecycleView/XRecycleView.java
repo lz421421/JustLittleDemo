@@ -31,15 +31,11 @@ public class XRecycleView extends RecyclerView {
 
     private static List<View> headerView;
     LinearLayoutManager mLayoutManager;
-    private static final float DRAG_RATE = 1.5f;
-    private static final float DRAG_RATE_FOOTER = 1.5f;
+    private static final float DRAG_RATE = 2.5f;
+    private static final float DRAG_RATE_FOOTER = 2.5f;
     static XRecycleViewHeaderLayout headerFlashView;
     static XRecycleViewFooterLayout footerView;
     private float mLastY = -1; //记录的Y坐标
-
-//    static View mHeaderFlashView;
-//    static View mFooterView;
-
 
     public XRecycleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -90,36 +86,39 @@ public class XRecycleView extends RecyclerView {
         if (mLastY == -1) {
             mLastY = event.getRawY();
         }
-        float y = event.getRawY();
         int action = event.getAction();
-        float deltaY = y - mLastY;
-        mLastY = y;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-//                mLastY = event.getRawY();
+                mLastY = event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                headerFlashView.setProgress((int) deltaY);
+                float y = event.getRawY();
+                float deltaY = y - mLastY;
+                mLastY = y;
+                if (headerFlashView.getState() != XRecycleViewHeaderLayout.State.FLASHING) {
+                    headerFlashView.setProgress((int) deltaY);
+                }
                 //往下拉 增加高度 屏蔽事件 ==0 >=0  ==1 >=0
                 if (isTopDrageDown(deltaY) || isTopDrageDown_(deltaY)) {
                     headerFlashView.setHeightAdd((int) (deltaY / DRAG_RATE));
-                    return true;
+                    return false;
                 }
                 //往上滑动 减少高度  屏蔽事件  ==1 <=0
                 if (isTopDrageUp(deltaY)) {
                     if (headerFlashView.getNowHeight() > headerFlashView.getOriginalHeigt() && headerFlashView.getState() != XRecycleViewHeaderLayout.State.FLASHING) {
                         headerFlashView.setHeightAdd((int) (deltaY * 1.5 / DRAG_RATE));
-                        return true;
-                    } else {
+                        return false;
+                    } /*else {
                         return super.onTouchEvent(event);
-                    }
-                }
-                int lastCompletelyVisibleItemPosition = mLayoutManager.findLastCompletelyVisibleItemPosition();
-                if (isBottomDrageUp(deltaY)) {
-                    footerView.setHeightAdd((int) (-deltaY / DRAG_RATE_FOOTER));
+                    }*/
                 }
                 if (footerView != null) {
-                    footerView.setProgress((int) deltaY);
+                    if (isBottomDrageUp(deltaY)) {
+                        footerView.setHeightAdd((int) (-deltaY / DRAG_RATE_FOOTER));
+                    }
+                    if (footerView.getState() != XRecycleViewFooterLayout.State.FLASHING) {
+                        footerView.setProgress((int) -deltaY);
+                    }
                 }
 
                 break;
@@ -199,7 +198,7 @@ public class XRecycleView extends RecyclerView {
      */
     public boolean isTopDrageUp(float deltaY) {
         int firstCompletelyVisibleItemPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-        if (firstCompletelyVisibleItemPosition == 1 && deltaY <= 0) {
+        if ((firstCompletelyVisibleItemPosition == 1 || firstCompletelyVisibleItemPosition == 0) && deltaY <= 0) {
             return true;
         }
         return false;
@@ -278,6 +277,10 @@ public class XRecycleView extends RecyclerView {
 
         public void setmDatas(List<M> mDatas) {
             this.mDatas = mDatas;
+        }
+
+        public List<M> getmDatas() {
+            return mDatas;
         }
 
         @Override

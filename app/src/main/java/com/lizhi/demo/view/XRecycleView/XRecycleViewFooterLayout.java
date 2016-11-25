@@ -28,7 +28,7 @@ public class XRecycleViewFooterLayout extends LinearLayout {
 
     public XRecycleViewFooterLayout(Context context) {
         super(context);
-        flashHeight = DensityUtil.dip2px(context, 80);
+        flashHeight = DensityUtil.dip2px(context, 30);
         initView();
     }
 

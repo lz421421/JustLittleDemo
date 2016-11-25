@@ -62,7 +62,7 @@ public class XRecycleViewActivity extends BaseActivity {
         xRecycleView.addHeader(view1);
         xRecycleView.addHeader(view2);
         xRecycleView.addHeader(view3);
-        ABCAdapter abcAdapter = new ABCAdapter();
+        final ABCAdapter abcAdapter = new ABCAdapter();
         List<String> mDatas = new ArrayList<String>();
         for (int i = 0; i < 50; i++) {
             mDatas.add("你猜这是第几条Item" + i);
@@ -75,9 +75,15 @@ public class XRecycleViewActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        List<String>  addData = new ArrayList<String>();
+                        for (int i = 0; i < 50; i++) {
+                            addData.add("这是新增加的" + i);
+                        }
+                        abcAdapter.getmDatas().addAll(0,addData);
+                        abcAdapter.notifyDataSetChanged();
                         xRecycleView.completeFlashOrLoad();
                     }
-                }, 10000);
+                }, 3000);
             }
 
             @Override
@@ -85,9 +91,15 @@ public class XRecycleViewActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        List<String>  loadData = new ArrayList<String>();
+                        for (int i = 0; i < 50; i++) {
+                            loadData.add("这是上拉加载更多的" + i);
+                        }
+                        abcAdapter.getmDatas().addAll(loadData);
+                        abcAdapter.notifyDataSetChanged();
                         xRecycleView.completeFlashOrLoad();
                     }
-                }, 10000);
+                }, 3000);
             }
         });
     }

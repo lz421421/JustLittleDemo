@@ -34,7 +34,7 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
 
     public XRecycleViewHeaderLayout(Context context) {
         super(context);
-        flashHeight = DensityUtil.dip2px(context, 80);
+        flashHeight = DensityUtil.dip2px(context, 30);
         initView();
     }
 
@@ -75,12 +75,13 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
 
     /**
      * 开始刷新
+     *
      * @param isStart
      */
     public void start(boolean isStart) {
-        if (isStart){
+        if (isStart) {
             setState(FLASHING);
-        }else {
+        } else {
             setState(XRecycleViewHeaderLayout.State.FLASH_COMPLETE);
         }
         crv_header_falsh.isStart(isStart);
@@ -123,7 +124,7 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
         crv_header_falsh.setProgress(progress);
     }
 
-    public void complete(){
+    public void complete() {
         start(false);
         closeTo(null);
     }
@@ -208,4 +209,5 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
             this.text = text;
         }
     }
+
 }
