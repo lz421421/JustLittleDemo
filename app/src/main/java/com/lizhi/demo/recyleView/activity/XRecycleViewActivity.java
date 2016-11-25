@@ -48,7 +48,6 @@ public class XRecycleViewActivity extends BaseActivity {
 
     public void initRecycleView() {
         xRecycleView.setItemAnimator(new DefaultItemAnimator());
-
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         xRecycleView.setLayoutManager(gridLayoutManager);
 

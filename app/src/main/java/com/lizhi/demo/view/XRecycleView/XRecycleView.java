@@ -31,7 +31,7 @@ public class XRecycleView extends RecyclerView {
 
     private static List<View> headerView;
     LinearLayoutManager mLayoutManager;
-    private static final float DRAG_RATE = 2.5f;
+    private static final float DRAG_RATE = 1.5f;
     private static final float DRAG_RATE_FOOTER = 1.5f;
     static XRecycleViewHeaderLayout headerFlashView;
     static XRecycleViewFooterLayout footerView;
@@ -59,11 +59,16 @@ public class XRecycleView extends RecyclerView {
         } else if (view.getParent() != null) {
             throw new IllegalArgumentException("HeaderView 的只能有一个爸爸");
         }
-        LogUtil.log("---addHeader-->" + view);
         if (headerView == null) {
             headerView = new ArrayList<>();
         }
         headerView.add(view);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        headerView = null;
+        super.onDetachedFromWindow();
     }
 
     public void setXAdapter(XRecycleView.XRecycleViewAdapter adapter) {
@@ -110,7 +115,6 @@ public class XRecycleView extends RecyclerView {
                     }
                 }
                 int lastCompletelyVisibleItemPosition = mLayoutManager.findLastCompletelyVisibleItemPosition();
-                LogUtil.log("---lastCompletelyVisibleItemPosition--->" + lastCompletelyVisibleItemPosition + deltaY);
                 if (isBottomDrageUp(deltaY)) {
                     footerView.setHeightAdd((int) (-deltaY / DRAG_RATE_FOOTER));
                 }
