@@ -38,6 +38,9 @@ import java.util.List;
 public class XRecycleViewActivity extends BaseActivity {
 
     XRecycleView xRecycleView;
+    ABCAdapter abcAdapter;
+
+    public int j = 0;
 
     @Override
     public void setContentView() {
@@ -48,26 +51,25 @@ public class XRecycleViewActivity extends BaseActivity {
 
     public void initRecycleView() {
         xRecycleView.setItemAnimator(new DefaultItemAnimator());
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
-        xRecycleView.setLayoutManager(gridLayoutManager);
+//        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+//        xRecycleView.setLayoutManager(gridLayoutManager);
 
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        xRecycleView.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        xRecycleView.setLayoutManager(linearLayoutManager);
 
 
         View view1 = LayoutInflater.from(this).inflate(R.layout.layout_recycleheader, null, false);
         View view2 = LayoutInflater.from(this).inflate(R.layout.layout_recycleheader, null, false);
-        View view3 = LayoutInflater.from(this).inflate(R.layout.layout_recycleheader, null, false);
         xRecycleView.addHeader(view1);
         xRecycleView.addHeader(view2);
-        xRecycleView.addHeader(view3);
-        final ABCAdapter abcAdapter = new ABCAdapter();
-        List<String> mDatas = new ArrayList<String>();
-        for (int i = 0; i < 50; i++) {
-            mDatas.add("你猜这是第几条Item" + i);
-        }
-        abcAdapter.setmDatas(mDatas);
+        abcAdapter = new ABCAdapter();
+//        List<String> mDatas = new ArrayList<>();
+//        for (int i = 0; i < 50; i++) {
+//            mDatas.add("你猜这是第几条Item" + i);
+//        }
+//        abcAdapter.setmDatas(mDatas);
+        xRecycleView.setmEmputyView(LayoutInflater.from(this).inflate(R.layout.layout_recycleview_emputy, null));
         xRecycleView.setAdapter(abcAdapter);
         xRecycleView.setOnXRecycleListener(new XRecycleView.OnXRecycleListener() {
             @Override
@@ -75,15 +77,18 @@ public class XRecycleViewActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        List<String>  addData = new ArrayList<String>();
-                        for (int i = 0; i < 50; i++) {
-                            addData.add("这是新增加的" + i);
+                        List<String> addData = new ArrayList<String>();
+                        for (int i = 0; i < 2; i++) {
+                            addData.add("这是第" + j + "次新增加的" + i);
                         }
-                        abcAdapter.getmDatas().addAll(0,addData);
-                        abcAdapter.notifyDataSetChanged();
+                        abcAdapter.notifyItemRangeInserted(j, addData);
                         xRecycleView.completeFlashOrLoad();
+                        j++;
+                        if (j == 5) {
+                            abcAdapter.notifyItemChange(2, "12333");
+                        }
                     }
-                }, 3000);
+                }, 1500);
             }
 
             @Override
@@ -91,18 +96,27 @@ public class XRecycleViewActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        List<String>  loadData = new ArrayList<String>();
+                        j = 0;
+                        List<String> loadData = new ArrayList<String>();
                         for (int i = 0; i < 50; i++) {
                             loadData.add("这是上拉加载更多的" + i);
                         }
-                        abcAdapter.getmDatas().addAll(loadData);
+                        abcAdapter.getmDatas().clear();
                         abcAdapter.notifyDataSetChanged();
                         xRecycleView.completeFlashOrLoad();
                     }
-                }, 3000);
+                }, 1500);
+            }
+        });
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abcAdapter.notifyItemRemove(2);
+//                abcAdapter.notifyItemInserted(1, "1212");
             }
         });
     }
+
 
     public class ABCAdapter extends XRecycleView.XRecycleViewAdapter<ABCAdapter.MyViewHolder, String> {
 
@@ -136,15 +150,15 @@ public class XRecycleViewActivity extends BaseActivity {
                 case text:
                     view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycleview, parent, false);
                     break;
-                case img:
-                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_xrecycle_img, parent, false);
-                    break;
+//                case img:
+//                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_xrecycle_img, parent, false);
+//                    break;
             }
             return new MyViewHolder(view);
         }
 
         public static final int text = 101;
-        public static final int img = 103;
+        public static final int img = 101;
 
         @Override
         public int getViewType(int position) {
@@ -161,8 +175,8 @@ public class XRecycleViewActivity extends BaseActivity {
                 case text:
                     holder.textView.setText(item);
                     break;
-                case img:
-                    break;
+//                case img:
+//                    break;
             }
         }
 

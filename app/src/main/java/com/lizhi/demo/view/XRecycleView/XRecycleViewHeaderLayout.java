@@ -82,10 +82,9 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
         if (isStart) {
             setState(FLASHING);
         } else {
-            setState(XRecycleViewHeaderLayout.State.FLASH_COMPLETE);
+            setState(FLASH_COMPLETE);
         }
         crv_header_falsh.isStart(isStart);
-        tv_header_flash.setText(state.text);
         if (isStart) {
             setPointText();
         } else {

@@ -4,11 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/image"
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/goods_sample" />
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="这里真的没有数据了呀"
+        android:textSize="50sp" />
 
 </LinearLayout>

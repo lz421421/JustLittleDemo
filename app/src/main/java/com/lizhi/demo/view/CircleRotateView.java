@@ -98,7 +98,7 @@ public class CircleRotateView extends View {
         RectF rectF = new RectF((width - cWidth) / 2, (height - cHeight) / 2, (width + cWidth) / 2, (height + cHeight) / 2);
         canvas.drawArc(rectF, 270 + i, (float) 240, false, mPaint);
         if (isStart) {
-            i += 5;
+            i += 15;
             postInvalidate();
         }
     }
