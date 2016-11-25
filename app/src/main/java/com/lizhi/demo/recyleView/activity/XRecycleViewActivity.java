@@ -22,6 +22,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.lizhi.demo.BaseActivity;
 import com.lizhi.demo.R;
+import com.lizhi.demo.baseadapter.MyRecycleViewHolder;
 import com.lizhi.demo.utils.LogUtil;
 import com.lizhi.demo.view.XRecycleView.XRecycleView;
 
@@ -60,10 +61,14 @@ public class XRecycleViewActivity extends BaseActivity {
 
 
         View view1 = LayoutInflater.from(this).inflate(R.layout.layout_recycleheader, null, false);
-        View view2 = LayoutInflater.from(this).inflate(R.layout.layout_recycleheader, null, false);
+        View view2 = LayoutInflater.from(this).inflate(R.layout.layout_coordinator, null, false);
+        View view3 = LayoutInflater.from(this).inflate(R.layout.layout_scroll_header, null, false);
+        View view4 = LayoutInflater.from(this).inflate(R.layout.activity_tantanhome, null, false);
         xRecycleView.addHeader(view1);
-        xRecycleView.addHeader(view2);
-        abcAdapter = new ABCAdapter();
+//        xRecycleView.addHeader(view2);
+        xRecycleView.addHeader(view3);
+        xRecycleView.addHeader(view4);
+        abcAdapter = new ABCAdapter(R.layout.item_recycleview);
 //        List<String> mDatas = new ArrayList<>();
 //        for (int i = 0; i < 50; i++) {
 //            mDatas.add("你猜这是第几条Item" + i);
@@ -119,77 +124,45 @@ public class XRecycleViewActivity extends BaseActivity {
     }
 
 
-    public class ABCAdapter extends XRecycleView.XRecycleViewAdapter<ABCAdapter.MyViewHolder, String> {
+    public class ABCAdapter extends XRecycleView.XRecycleViewAdapter<String> {
+
+        public ABCAdapter(int layoutId) {
+            super(layoutId);
+        }
 
         @Override
-        public void setHeaderData(View headerView, int position) {
-            Uri uri = Uri.parse("http://s1.dwstatic.com/group1/M00/B7/F7/40ede23b328757cea2cd14e0720b3275.gif");
-            ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
-                @Override
-                public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable anim) {
+        public void setHeaderData(MyRecycleViewHolder holder, View headerView, int position) {
+            initHeader(holder, headerView, position);
+        }
+
+        @Override
+        public void setViewData(MyRecycleViewHolder holder, String item, int position) {
+            holder.setText(R.id.tv_content, item);
+        }
+    }
+
+    public void initHeader(MyRecycleViewHolder holder, View headerView, int position) {
+        LogUtil.log("-----headerView----->"+headerView+"--position-->"+position);
+        if (position ==0){
+        Uri uri = Uri.parse("http://s1.dwstatic.com/group1/M00/B7/F7/40ede23b328757cea2cd14e0720b3275.gif");
+        ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+            @Override
+            public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable anim) {
 //                        LogUtil.log("--------onFinalImageSet-------" + anim);
-                    if (anim != null) {
-                        // 其他控制逻辑
-                        anim.start();
-                    }
+                if (anim != null) {
+                    // 其他控制逻辑
+                    anim.start();
                 }
-            };
-            DraweeController draweeController =//设置GIF
-                    Fresco.newDraweeControllerBuilder()
-                            .setUri(uri).setControllerListener(controllerListener)
-                            .setAutoPlayAnimations(true) // 设置加载图片完成后是否直接进行播放
-                            .build();
-            SimpleDraweeView img_header = (SimpleDraweeView) headerView.findViewById(R.id.img_header);
-            img_header.setController(draweeController);
-            LogUtil.log("-----------setHeaderData------->" + img_header);
-        }
-
-        @Override
-        public MyViewHolder createHolder(ViewGroup parent, int viewType) {
-            View view = null;
-            switch (viewType) {
-                case text:
-                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycleview, parent, false);
-                    break;
-//                case img:
-//                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_xrecycle_img, parent, false);
-//                    break;
             }
-            return new MyViewHolder(view);
-        }
-
-        public static final int text = 101;
-        public static final int img = 101;
-
-        @Override
-        public int getViewType(int position) {
-            if (position % 3 == 0) {
-                return text;
-            } else {
-                return img;
-            }
-        }
-
-        @Override
-        public void setViewData(MyViewHolder holder, String item, int position) {
-            switch (getViewType(position)) {
-                case text:
-                    holder.textView.setText(item);
-                    break;
-//                case img:
-//                    break;
-            }
-        }
-
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView textView;
-            ImageView imageView;
-
-            public MyViewHolder(View itemView) {
-                super(itemView);
-                textView = (TextView) itemView.findViewById(R.id.tv_content);
-                imageView = (ImageView) itemView.findViewById(R.id.image);
-            }
+        };
+        DraweeController draweeController =//设置GIF
+                Fresco.newDraweeControllerBuilder()
+                        .setUri(uri).setControllerListener(controllerListener)
+                        .setAutoPlayAnimations(true) // 设置加载图片完成后是否直接进行播放
+                        .build();
+        SimpleDraweeView img_header = (SimpleDraweeView) headerView.findViewById(R.id.img_header);
+        img_header.setController(draweeController);
+        LogUtil.log("-----------setHeaderData------->" + img_header);
         }
     }
 }

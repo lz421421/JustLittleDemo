@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.lizhi.demo.R;
+import com.lizhi.demo.baseadapter.MyRecycleViewHolder;
 import com.lizhi.demo.utils.DensityUtil;
 import com.lizhi.demo.utils.LogUtil;
 
@@ -272,7 +273,7 @@ public class XRecycleView extends RecyclerView {
         }
     }
 
-    public static abstract class XRecycleViewAdapter<T extends RecyclerView.ViewHolder, M> extends RecyclerView.Adapter<T> {
+    public static abstract class XRecycleViewAdapter<M> extends RecyclerView.Adapter<com.lizhi.demo.baseadapter.MyRecycleViewHolder> {
 
         private final static int headerFlash = 1000;
         private final static int headerType = 1001;
@@ -281,10 +282,14 @@ public class XRecycleView extends RecyclerView {
         private final static int emputy = 1004;
         private int headerPosition = 0;
         public XRecycleView mXrecycleView;
-        private XRecycleViewHeaderLayout mHeaderFlashView;
-        private XRecycleViewFooterLayout mfooterView;
-        private View mEmputyView;
+        //        private XRecycleViewHeaderLayout mHeaderFlashView;
+//        private XRecycleViewFooterLayout mfooterView;
+//        private View mEmputyView;
+        int layoutId;
 
+        public XRecycleViewAdapter(int layoutId) {
+            this.layoutId = layoutId;
+        }
 
         /**
          * 指定位置增加数据
@@ -368,14 +373,6 @@ public class XRecycleView extends RecyclerView {
             this.mXrecycleView = mXrecycleView;
         }
 
-        public class XRecycleViewExtralHolder extends RecyclerView.ViewHolder {
-
-            public XRecycleViewExtralHolder(View itemView) {
-                super(itemView);
-            }
-
-        }
-
         final private int getItemColumnSpan(int position) {
             switch (getItemViewType(position)) {
                 case headerFlash:
@@ -399,54 +396,44 @@ public class XRecycleView extends RecyclerView {
         }
 
         @Override
-        public T onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MyRecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View converView = null;
             switch (viewType) {
                 case headerFlash:
-                    mHeaderFlashView = mXrecycleView.getHeaderFlashView();
-                    parent.addView(mHeaderFlashView);
-                    ViewGroup.LayoutParams headerFlashView_lp = mHeaderFlashView.getLayoutParams();
-                    headerFlashView_lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    mHeaderFlashView.setLayoutParams(headerFlashView_lp);
-                    return (T) new XRecycleViewExtralHolder(mHeaderFlashView);
+                    converView = mXrecycleView.getHeaderFlashView();
+                    break;
                 case headerType:
                     if (mXrecycleView.getHeaderViews() != null) {
-                        View header_View = mXrecycleView.getHeaderViews().get(headerPosition++);
-                        parent.addView(header_View);
-                        ViewGroup.LayoutParams header_View_lp = header_View.getLayoutParams();
-                        header_View_lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                        header_View.setLayoutParams(header_View_lp);
-                        return (T) new XRecycleViewExtralHolder(header_View);
+                        converView = mXrecycleView.getHeaderViews().get(headerPosition++);
                     }
+                    break;
                 case footLoadMore:
-                    mfooterView = mXrecycleView.getFooterView();
-                    parent.addView(mfooterView);
-                    ViewGroup.LayoutParams footerView_lp = mfooterView.getLayoutParams();
-                    footerView_lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    mfooterView.setLayoutParams(footerView_lp);
-                    return (T) new XRecycleViewExtralHolder(mfooterView);
+                    converView = mXrecycleView.getFooterView();
+                    break;
                 case emputy:
-                    mEmputyView = mXrecycleView.getmEmputyView();
-                    if (mEmputyView != null) {
-                        parent.addView(mEmputyView);
-                        ViewGroup.LayoutParams mEmputyView_lp = mEmputyView.getLayoutParams();
-                        mEmputyView_lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                        mEmputyView_lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-                        mEmputyView.setLayoutParams(mEmputyView_lp);
-                        return (T) new XRecycleViewExtralHolder(mEmputyView);
-                    }
+                    converView = mXrecycleView.getmEmputyView();
+                    break;
                 default:
-                    return createHolder(parent, viewType);
+                    converView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+                    break;
             }
+            if (converView != null && (viewType == headerFlash || viewType == headerType || viewType == footLoadMore || viewType == emputy)) {
+                parent.addView(converView);
+                ViewGroup.LayoutParams converView_lp = converView.getLayoutParams();
+                converView_lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                converView.setLayoutParams(converView_lp);
+            }
+            return new MyRecycleViewHolder(converView, viewType);
         }
 
         @Override
-        final public void onBindViewHolder(T holder, int position) {
+        final public void onBindViewHolder(MyRecycleViewHolder holder, int position) {
             switch (getItemViewType(position)) {
                 case headerFlash:
                     break;
                 case headerType:
                     if (mXrecycleView.getHeaderViews() != null) {
-                        setHeaderData(mXrecycleView.getHeaderViews().get(position - 1), position - 1);
+                        setHeaderData(holder, mXrecycleView.getHeaderViews().get(position - 1), position - 1);
                     }
                     break;
                 case footLoadMore:
@@ -460,15 +447,16 @@ public class XRecycleView extends RecyclerView {
 
         }
 
-        public abstract void setHeaderData(View headerView, int position);
+        public void setHeaderData(MyRecycleViewHolder holder, View headerView, int position) {
 
-        public abstract T createHolder(ViewGroup parent, int viewType);
+        }
 
-        public void bindHolder(T holder, int position) {
+
+        public void bindHolder(MyRecycleViewHolder holder, int position) {
             setViewData(holder, mDatas.get(position), position);
         }
 
-        public abstract void setViewData(T t, M m, int position);
+        public abstract void setViewData(MyRecycleViewHolder t, M m, int position);
 
 
         @Override
