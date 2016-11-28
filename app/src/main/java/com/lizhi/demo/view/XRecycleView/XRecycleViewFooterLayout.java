@@ -11,6 +11,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 
 import static com.lizhi.demo.view.XRecycleView.XRecycleViewFooterLayout.State.CAN_FLASH;
 import static com.lizhi.demo.view.XRecycleView.XRecycleViewFooterLayout.State.FLASHING;
+import static com.lizhi.demo.view.XRecycleView.XRecycleViewFooterLayout.State.FLASH_ENABLE_FALSE;
 import static com.lizhi.demo.view.XRecycleView.XRecycleViewFooterLayout.State.NO_CAN_FLASH;
 
 /**
@@ -19,12 +20,12 @@ import static com.lizhi.demo.view.XRecycleView.XRecycleViewFooterLayout.State.NO
 
 public class XRecycleViewFooterLayout extends LinearLayout {
     LinearLayout ll_footer;
-    //原始高度 初始化高度 1px
-    private int originalHeigt = 0;
     //达到刷新高度的临界值
     int flashHeight;
     CircleRotateView crv_foot_load;
-
+    XRecycleViewFooterLayout.State state = NO_CAN_FLASH;
+    //原始高度 初始化高度 1px
+    private int originalHeigt = 0;
 
     public XRecycleViewFooterLayout(Context context) {
         super(context);
@@ -45,13 +46,19 @@ public class XRecycleViewFooterLayout extends LinearLayout {
         return lp.height;
     }
 
+    public void setNowHeight(int height) {
+        LayoutParams lp = (LayoutParams) ll_footer.getLayoutParams();
+        lp.height = height;
+        ll_footer.setLayoutParams(lp);
+    }
+
     public void setHeightAdd(int addSize) {
         LayoutParams lp = (LayoutParams) ll_footer.getLayoutParams();
         lp.height += addSize;
         if (lp.height < originalHeigt) {
             lp.height = originalHeigt;
         }
-        if (getState() != XRecycleViewFooterLayout.State.FLASHING) {
+        if (getState() != XRecycleViewFooterLayout.State.FLASHING && getState() != FLASH_ENABLE_FALSE) {
             if (getNowHeight() >= flashHeight) {
                 setState(CAN_FLASH);
             } else {
@@ -62,23 +69,19 @@ public class XRecycleViewFooterLayout extends LinearLayout {
     }
 
     public void start(boolean isStart) {
-        if (isStart){
+        if (isStart) {
             setState(FLASHING);
-        }else {
+        } else {
             setState(XRecycleViewFooterLayout.State.FLASH_COMPLETE);
         }
         crv_foot_load.isStart(isStart);
     }
+
     public void setProgress(int progress) {
         crv_foot_load.setProgress(progress);
     }
-    public void setNowHeight(int height) {
-        LayoutParams lp = (LayoutParams) ll_footer.getLayoutParams();
-        lp.height = height;
-        ll_footer.setLayoutParams(lp);
-    }
 
-    public void complete(){
+    public void complete() {
         start(false);
         closeTo(null);
     }
@@ -99,6 +102,9 @@ public class XRecycleViewFooterLayout extends LinearLayout {
             case FLASH_COMPLETE:
                 to = originalHeigt;
                 break;
+            case FLASH_ENABLE_FALSE:
+                to = originalHeigt;
+                break;
         }
         if (from <= to) {
             return;
@@ -112,6 +118,8 @@ public class XRecycleViewFooterLayout extends LinearLayout {
                 setNowHeight(values);
                 if (values == finalTo) {
                     switch (state) {
+                        case FLASH_ENABLE_FALSE:
+                            break;
                         case CAN_FLASH:
                             start(true);
                             xRecycleListener.onLoadMore();
@@ -127,16 +135,29 @@ public class XRecycleViewFooterLayout extends LinearLayout {
         animator.start();
     }
 
-    XRecycleViewFooterLayout.State state = NO_CAN_FLASH;
-
-
-    public void setState(XRecycleViewFooterLayout.State state) {
-        this.state = state;
-
+    public void setFlashEnable(boolean isEnable) {
+        if (isEnable) {
+            if (crv_foot_load.getVisibility() != VISIBLE) {
+                crv_foot_load.setVisibility(VISIBLE);
+            }
+        } else {
+            if (crv_foot_load.getVisibility() != GONE) {
+                crv_foot_load.setVisibility(GONE);
+            }
+        }
     }
 
     public XRecycleViewFooterLayout.State getState() {
         return state;
+    }
+
+    public void setState(XRecycleViewFooterLayout.State state) {
+        this.state = state;
+        if (state == FLASH_ENABLE_FALSE) {
+            setFlashEnable(false);
+        } else {
+            setFlashEnable(true);
+        }
     }
 
     public enum State {
@@ -147,7 +168,9 @@ public class XRecycleViewFooterLayout extends LinearLayout {
         //正在刷新
         FLASHING(1, "正在加载"),
         //刷新结束
-        FLASH_COMPLETE(2, "刷新完成");
+        FLASH_COMPLETE(2, "刷新完成"),
+        FLASH_ENABLE_FALSE(3, "不能加载");
+
         public int state;
         String text;
         //各自对应的高度

@@ -1,18 +1,12 @@
 package com.lizhi.demo.recyleView.activity;
 
-import android.content.Context;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -26,8 +20,6 @@ import com.lizhi.demo.baseadapter.MyRecycleViewHolder;
 import com.lizhi.demo.utils.LogUtil;
 import com.lizhi.demo.view.XRecycleView.XRecycleView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +30,9 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class XRecycleViewActivity extends BaseActivity {
 
+    public int j = 0;
     XRecycleView xRecycleView;
     ABCAdapter abcAdapter;
-
-    public int j = 0;
 
     @Override
     public void setContentView() {
@@ -68,13 +59,14 @@ public class XRecycleViewActivity extends BaseActivity {
 //        xRecycleView.addHeader(view2);
         xRecycleView.addHeader(view3);
         xRecycleView.addHeader(view4);
+        xRecycleView.setFlashEnable(false);
         abcAdapter = new ABCAdapter(R.layout.item_recycleview);
 //        List<String> mDatas = new ArrayList<>();
 //        for (int i = 0; i < 50; i++) {
 //            mDatas.add("你猜这是第几条Item" + i);
 //        }
 //        abcAdapter.setmDatas(mDatas);
-        xRecycleView.setmEmputyView(LayoutInflater.from(this).inflate(R.layout.layout_recycleview_emputy, null));
+        xRecycleView.setEmputyView(LayoutInflater.from(this).inflate(R.layout.layout_recycleview_emputy, null));
         xRecycleView.setAdapter(abcAdapter);
         xRecycleView.setOnXRecycleListener(new XRecycleView.OnXRecycleListener() {
             @Override
@@ -101,14 +93,17 @@ public class XRecycleViewActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        j = 0;
                         List<String> loadData = new ArrayList<String>();
-                        for (int i = 0; i < 50; i++) {
+                        for (int i = 0; i < 3; i++) {
                             loadData.add("这是上拉加载更多的" + i);
                         }
-                        abcAdapter.getmDatas().clear();
+                        abcAdapter.getData().addAll(loadData);
                         abcAdapter.notifyDataSetChanged();
                         xRecycleView.completeFlashOrLoad();
+
+                        xRecycleView.setFlashEnable(true);
+                        xRecycleView.setLoadMoreEnable(false);
+
                     }
                 }, 1500);
             }
@@ -123,6 +118,30 @@ public class XRecycleViewActivity extends BaseActivity {
         });
     }
 
+    public void initHeader(MyRecycleViewHolder holder, View headerView, int position) {
+        LogUtil.log("-----headerView----->" + headerView + "--position-->" + position);
+        if (position == 0) {
+            Uri uri = Uri.parse("http://s1.dwstatic.com/group1/M00/B7/F7/40ede23b328757cea2cd14e0720b3275.gif");
+            ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+                @Override
+                public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable anim) {
+//                        LogUtil.log("--------onFinalImageSet-------" + anim);
+                    if (anim != null) {
+                        // 其他控制逻辑
+                        anim.start();
+                    }
+                }
+            };
+            DraweeController draweeController =//设置GIF
+                    Fresco.newDraweeControllerBuilder()
+                            .setUri(uri).setControllerListener(controllerListener)
+                            .setAutoPlayAnimations(true) // 设置加载图片完成后是否直接进行播放
+                            .build();
+            SimpleDraweeView img_header = (SimpleDraweeView) headerView.findViewById(R.id.img_header);
+            img_header.setController(draweeController);
+            LogUtil.log("-----------setHeaderData------->" + img_header);
+        }
+    }
 
     public class ABCAdapter extends XRecycleView.XRecycleViewAdapter<String> {
 
@@ -138,31 +157,6 @@ public class XRecycleViewActivity extends BaseActivity {
         @Override
         public void setViewData(MyRecycleViewHolder holder, String item, int position) {
             holder.setText(R.id.tv_content, item);
-        }
-    }
-
-    public void initHeader(MyRecycleViewHolder holder, View headerView, int position) {
-        LogUtil.log("-----headerView----->"+headerView+"--position-->"+position);
-        if (position ==0){
-        Uri uri = Uri.parse("http://s1.dwstatic.com/group1/M00/B7/F7/40ede23b328757cea2cd14e0720b3275.gif");
-        ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
-            @Override
-            public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable anim) {
-//                        LogUtil.log("--------onFinalImageSet-------" + anim);
-                if (anim != null) {
-                    // 其他控制逻辑
-                    anim.start();
-                }
-            }
-        };
-        DraweeController draweeController =//设置GIF
-                Fresco.newDraweeControllerBuilder()
-                        .setUri(uri).setControllerListener(controllerListener)
-                        .setAutoPlayAnimations(true) // 设置加载图片完成后是否直接进行播放
-                        .build();
-        SimpleDraweeView img_header = (SimpleDraweeView) headerView.findViewById(R.id.img_header);
-        img_header.setController(draweeController);
-        LogUtil.log("-----------setHeaderData------->" + img_header);
         }
     }
 }

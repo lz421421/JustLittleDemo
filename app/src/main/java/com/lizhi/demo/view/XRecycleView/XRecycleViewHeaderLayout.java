@@ -2,21 +2,20 @@ package com.lizhi.demo.view.XRecycleView;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lizhi.demo.R;
 import com.lizhi.demo.utils.DensityUtil;
-import com.lizhi.demo.utils.LogUtil;
 import com.lizhi.demo.view.CircleRotateView;
 import com.nineoldandroids.animation.ValueAnimator;
 
 import static com.lizhi.demo.view.XRecycleView.XRecycleViewHeaderLayout.State.CAN_FLASH;
-import static com.lizhi.demo.view.XRecycleView.XRecycleViewHeaderLayout.State.NO_CAN_FLASH;
 import static com.lizhi.demo.view.XRecycleView.XRecycleViewHeaderLayout.State.FLASHING;
 import static com.lizhi.demo.view.XRecycleView.XRecycleViewHeaderLayout.State.FLASH_COMPLETE;
+import static com.lizhi.demo.view.XRecycleView.XRecycleViewHeaderLayout.State.FLASH_ENABLE_FALSE;
+import static com.lizhi.demo.view.XRecycleView.XRecycleViewHeaderLayout.State.NO_CAN_FLASH;
 
 /**
  * Created by 39157 on 2016/11/23.
@@ -24,13 +23,15 @@ import static com.lizhi.demo.view.XRecycleView.XRecycleViewHeaderLayout.State.FL
 
 public class XRecycleViewHeaderLayout extends LinearLayout {
     LinearLayout ll_header_content;
-    //原始高度 初始化高度 1px
-    private int originalHeigt = 0;
     //达到刷新高度的临界值
     int flashHeight;
     TextView tv_header_flash, tv_header_flash_point;
     CircleRotateView crv_header_falsh;
-
+    Handler handler;
+    Runnable runnable;
+    State state = NO_CAN_FLASH;
+    //原始高度 初始化高度 1px
+    private int originalHeigt = 0;
 
     public XRecycleViewHeaderLayout(Context context) {
         super(context);
@@ -57,13 +58,19 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
         return lp.topMargin;
     }
 
+    public void setNowHeight(int height) {
+        LayoutParams lp = (LayoutParams) ll_header_content.getLayoutParams();
+        lp.topMargin = height;
+        ll_header_content.setLayoutParams(lp);
+    }
+
     public void setHeightAdd(int addSize) {
         LayoutParams lp = (LayoutParams) ll_header_content.getLayoutParams();
         lp.topMargin += addSize;
         if (lp.topMargin < originalHeigt) {
             lp.topMargin = originalHeigt;
         }
-        if (getState() != State.FLASHING) {
+        if (getState() != State.FLASHING && getState() != FLASH_ENABLE_FALSE) {
             if (getNowHeight() >= flashHeight) {
                 setState(CAN_FLASH);
             } else {
@@ -93,10 +100,6 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
             }
         }
     }
-
-
-    Handler handler;
-    Runnable runnable;
 
     public void setPointText() {
         final StringBuilder stringBuilder = new StringBuilder(".");
@@ -128,12 +131,6 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
         closeTo(null);
     }
 
-    public void setNowHeight(int height) {
-        LayoutParams lp = (LayoutParams) ll_header_content.getLayoutParams();
-        lp.topMargin = height;
-        ll_header_content.setLayoutParams(lp);
-    }
-
     public void closeTo(final XRecycleView.OnXRecycleListener xRecycleListener) {
         int from = getNowHeight();
         int to = originalHeigt;
@@ -150,6 +147,9 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
             case FLASH_COMPLETE:
                 to = originalHeigt;
                 break;
+            case FLASH_ENABLE_FALSE:
+                to = originalHeigt;
+                break;
         }
         if (from <= to) {
             return;
@@ -163,12 +163,13 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
                 setNowHeight(values);
                 if (values == finalTo) {
                     switch (state) {
+                        case FLASH_ENABLE_FALSE:
+                            break;
                         case CAN_FLASH:
                             start(true);
                             xRecycleListener.onFlash();
                             break;
                         case FLASH_COMPLETE:
-
                             break;
                     }
                 }
@@ -182,12 +183,39 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
         return state;
     }
 
-    State state = NO_CAN_FLASH;
-
     public void setState(State state) {
         this.state = state;
         tv_header_flash.setText(state.text);
+        if (state == FLASH_ENABLE_FALSE) {
+            setFlashEnable(false);
+        } else {
+            setFlashEnable(true);
+        }
 
+    }
+
+    public void setFlashEnable(boolean isEnable) {
+        if (!isEnable) {
+            if (tv_header_flash.getVisibility() != GONE) {
+                tv_header_flash.setVisibility(GONE);
+            }
+            if (tv_header_flash_point.getVisibility() != GONE) {
+                tv_header_flash_point.setVisibility(GONE);
+            }
+            if (crv_header_falsh.getVisibility() != GONE) {
+                crv_header_falsh.setVisibility(GONE);
+            }
+        } else {
+            if (tv_header_flash.getVisibility() != VISIBLE) {
+                tv_header_flash.setVisibility(VISIBLE);
+            }
+            if (tv_header_flash_point.getVisibility() != VISIBLE) {
+                tv_header_flash_point.setVisibility(VISIBLE);
+            }
+            if (crv_header_falsh.getVisibility() != VISIBLE) {
+                crv_header_falsh.setVisibility(VISIBLE);
+            }
+        }
     }
 
     public enum State {
@@ -198,7 +226,9 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
         //正在刷新
         FLASHING(1, "正在刷新"),
         //刷新结束
-        FLASH_COMPLETE(2, "刷新完成");
+        FLASH_COMPLETE(2, "刷新完成"),
+
+        FLASH_ENABLE_FALSE(3, "不能下拉");
         public int state;
         String text;
         //各自对应的高度
