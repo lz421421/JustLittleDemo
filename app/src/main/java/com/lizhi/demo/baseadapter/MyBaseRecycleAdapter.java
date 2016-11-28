@@ -24,6 +24,7 @@ public class MyBaseRecycleAdapter<T> extends RecyclerView.Adapter<MyRecycleViewH
 
     @Override
     public int getItemCount() {
+
         return 0;
     }
 }
