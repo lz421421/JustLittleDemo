@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity {
 //        startActivity(PersonalActivity.class);
 
 //        startActivity(TimeTextViewActivity.class);
-        startActivity(OkHttpActivity.class);
+//        startActivity(OkHttpActivity.class);
 //        startActivity(NormalH5Activity.class);
 //        startActivity(TabViewPagerActivity.class);
 
@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity {
 
 
 //        startActivity(RecycleViewActivity.class);
-//        startActivity(XRecycleViewActivity.class);
+        startActivity(XRecycleViewActivity.class);
 
 
     }

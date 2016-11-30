@@ -55,18 +55,18 @@ public class XRecycleViewActivity extends BaseActivity {
         View view2 = LayoutInflater.from(this).inflate(R.layout.layout_coordinator, null, false);
         View view3 = LayoutInflater.from(this).inflate(R.layout.layout_scroll_header, null, false);
         View view4 = LayoutInflater.from(this).inflate(R.layout.activity_tantanhome, null, false);
-        xRecycleView.addHeader(view1);
+//        xRecycleView.addHeader(view1);
 //        xRecycleView.addHeader(view2);
-        xRecycleView.addHeader(view3);
-        xRecycleView.addHeader(view4);
-        xRecycleView.setFlashEnable(false);
+//        xRecycleView.addHeader(view3);
+//        xRecycleView.addHeader(view4);
+//        xRecycleView.setFlashEnable(false);
         abcAdapter = new ABCAdapter(R.layout.item_recycleview);
-//        List<String> mDatas = new ArrayList<>();
-//        for (int i = 0; i < 50; i++) {
-//            mDatas.add("你猜这是第几条Item" + i);
-//        }
-//        abcAdapter.setmDatas(mDatas);
-        xRecycleView.setEmputyView(LayoutInflater.from(this).inflate(R.layout.layout_recycleview_emputy, null));
+        List<String> mDatas = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            mDatas.add("你猜这是第几条Item" + i);
+        }
+        abcAdapter.setData(mDatas);
+//        xRecycleView.setEmputyView(LayoutInflater.from(this).inflate(R.layout.layout_recycleview_emputy, null));
         xRecycleView.setAdapter(abcAdapter);
         xRecycleView.setOnXRecycleListener(new XRecycleView.OnXRecycleListener() {
             @Override
@@ -157,6 +157,12 @@ public class XRecycleViewActivity extends BaseActivity {
         @Override
         public void setViewData(MyRecycleViewHolder holder, String item, int position) {
             holder.setText(R.id.tv_content, item);
+            holder.getConvertView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LogUtil.log("---------hHAHAH---》");
+                }
+            });
         }
     }
 }

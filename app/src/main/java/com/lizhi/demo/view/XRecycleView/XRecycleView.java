@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lizhi.demo.baseadapter.MyRecycleViewHolder;
+import com.lizhi.demo.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,6 +182,7 @@ public class XRecycleView extends RecyclerView {
                 if (footerView != null) {
                     footerView.closeTo(onXRecycleListener);
                 }
+                mLastY = -1;
                 break;
         }
         return super.onTouchEvent(event);
