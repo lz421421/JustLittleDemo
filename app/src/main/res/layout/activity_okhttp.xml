@@ -22,7 +22,6 @@
         android:cacheColorHint="@color/transparent"
         android:clipToPadding="false"
         android:divider="#cccccc"
-        android:visibility="gone"
         android:listSelector="@color/transparent"
         ></ListView>
 

@@ -7,4 +7,6 @@ package com.lizhi.demo.recyleView;
 public interface OnFlashLoadMoreListener {
     public void onFlash();
     public void onLoadMore();
+
+
 }
