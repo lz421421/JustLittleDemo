@@ -10,6 +10,7 @@ import android.view.View;
 import com.lizhi.demo.chaoshidemo.HomeFragment;
 import com.lizhi.demo.coordinatorlayout_behavior.MyTextView;
 import com.lizhi.demo.fresco.activity.FrescoActivity;
+import com.lizhi.demo.numberpswEdit.NumberPswEditTextActivity;
 import com.lizhi.demo.okhttp.activity.OkHttpActivity;
 import com.lizhi.demo.personal.PersonalActivity;
 import com.lizhi.demo.recyleView.activity.RecycleViewActivity;
@@ -121,7 +122,8 @@ public class MainActivity extends BaseActivity {
 
 
 //        startActivity(RecycleViewActivity.class);
-        startActivity(XRecycleViewActivity.class);
+//        startActivity(XRecycleViewActivity.class);
+        startActivity(NumberPswEditTextActivity.class);
 
 
     }
