@@ -4,16 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.IBinder;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-
-import com.lizhi.demo.utils.LogUtil;
 
 /**
  * Created by 39157 on 2016/12/3.
@@ -33,7 +29,7 @@ public class NumberPswEditText extends EditText {
     /**
      * 密码长度
      */
-    private final int PWD_LENGTH = 6;
+    private final int PWD_LENGTH = 4;
     /**
      * 宽度
      */
@@ -83,6 +79,7 @@ public class NumberPswEditText extends EditText {
         setBackgroundColor(Color.TRANSPARENT);
         setCursorVisible(false);
         setLongClickable(false);
+        setInputType(EditorInfo.TYPE_CLASS_NUMBER);
 
         mNoPwdPaint = new Paint();
         mNoPwdPaint.setColor(Color.parseColor("#666666"));
@@ -143,14 +140,24 @@ public class NumberPswEditText extends EditText {
         setSelection(length);
     }
 
+    public void clear(){
+        mInputLength = 0;
+        invalidate();
+        setText("");
+    }
+
     @Override
-    protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
+    protected void onTextChanged(final CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
         this.mInputLength = text.toString().length();
         invalidate();
         if (mInputLength == PWD_LENGTH && mOnInputFinishListener != null) {
-            hideSoftInput(getWindowToken());
-            mOnInputFinishListener.onInputFinish(text.toString());
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mOnInputFinishListener.onInputFinish(text.toString());
+                }
+            },300);
         }
         setSelection(mInputLength);
     }
