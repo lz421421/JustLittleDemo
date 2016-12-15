@@ -1,17 +1,24 @@
 package com.lizhi.demo.view.XRecycleView;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 
+import com.lizhi.demo.R;
 import com.lizhi.demo.baseadapter.MyRecycleViewHolder;
+import com.lizhi.demo.recyleView.BaseRecycleViewHolder;
 import com.lizhi.demo.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -25,9 +32,11 @@ import java.util.List;
 public class XRecycleView extends RecyclerView {
 //    private final String TAG = "XRecycleView";
 
+
     private static final float DRAG_RATE = 2.5f;
     private static final float DRAG_RATE_FOOTER = 2.5f;
     OnXRecycleListener onXRecycleListener;
+    boolean isFirstTouch = true;
     private List<View> headerView;
     private LinearLayoutManager mLayoutManager;
     private XRecycleViewHeaderLayout headerFlashView;
@@ -36,6 +45,7 @@ public class XRecycleView extends RecyclerView {
     private View mEmputyView;
     private boolean isFlashEnable = true;
     private boolean isLoadMoreEnable = true;
+
 
     public XRecycleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -133,7 +143,7 @@ public class XRecycleView extends RecyclerView {
         if (adapter instanceof XRecycleViewAdapter) {
             setXAdapter((XRecycleView.XRecycleViewAdapter) adapter);
         } else {
-            throw new IllegalArgumentException("adapter 必须继承 XRecycleViewAdapter");
+//            throw new IllegalArgumentException("adapter 必须继承 XRecycleViewAdapter");
         }
     }
 
@@ -147,7 +157,7 @@ public class XRecycleView extends RecyclerView {
         float deltaY = y - mLastY;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                mLastY = event.getRawY();
+//                mLastY = event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 mLastY = y;
@@ -279,23 +289,25 @@ public class XRecycleView extends RecyclerView {
         void onLoadMore();
     }
 
-    public static abstract class XRecycleViewAdapter<M> extends RecyclerView.Adapter<com.lizhi.demo.baseadapter.MyRecycleViewHolder> {
+    public static abstract class XRecycleViewAdapter<M> extends RecyclerView.Adapter<BaseRecycleViewHolder> {
 
         private final static int headerFlash = 1000;
         private final static int headerType = 1001;
-        private final static int normal = 1002;
         private final static int footLoadMore = 1003;
         private final static int emputy = 1004;
-        //        private XRecycleViewHeaderLayout mHeaderFlashView;
-//        private XRecycleViewFooterLayout mfooterView;
-//        private View mEmputyView;
         int layoutId;
         private int headerPosition = 0;
         private XRecycleView mXrecycleView;
         private List<M> mData;
 
-        public XRecycleViewAdapter(int layoutId) {
+        public XRecycleViewAdapter(@LayoutRes int layoutId) {
             this.layoutId = layoutId;
+        }
+
+
+        public XRecycleViewAdapter(@LayoutRes int layoutId, List<M> mData) {
+            this.layoutId = layoutId;
+            this.mData = mData;
         }
 
         /**
@@ -369,7 +381,11 @@ public class XRecycleView extends RecyclerView {
          */
         final public void notifyItemRemove(int position) {
             if (mData == null) {
-                throw new IllegalArgumentException("瞎J8删除！！你TM有数据吗");
+                throw new IllegalArgumentException("没有数据");
+            }
+            LogUtil.log("---------notifyItemRemove------>" + position);
+            if (position == -1) {
+                return;
             }
             mData.remove(position);
             notifyItemRemoved(position + 1 + mXrecycleView.getHeaderViewSize());
@@ -403,7 +419,7 @@ public class XRecycleView extends RecyclerView {
         }
 
         @Override
-        public MyRecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public BaseRecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View converView = null;
             switch (viewType) {
                 case headerFlash:
@@ -421,7 +437,7 @@ public class XRecycleView extends RecyclerView {
                     converView = mXrecycleView.getEmputyView();
                     break;
                 default:
-                    converView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+                    converView = createView(parent, viewType);
                     break;
             }
             if (converView != null && (viewType == headerFlash || viewType == headerType || viewType == footLoadMore || viewType == emputy)) {
@@ -430,11 +446,43 @@ public class XRecycleView extends RecyclerView {
                 converView_lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
                 converView.setLayoutParams(converView_lp);
             }
-            return new MyRecycleViewHolder(converView, viewType);
+            return new BaseRecycleViewHolder(converView, viewType);
         }
 
+
+        /**
+         * @param parent
+         * @param layoutId getViewType 返回的布局文件id
+         * @return
+         */
+        final private View createView(ViewGroup parent, @LayoutRes int layoutId) {
+            View converView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+            return converView;
+        }
+
+
+        final private
+        @LayoutRes
+        int getType(int position) {
+            int layoutId = getViewType(position);
+            return layoutId;
+        }
+
+        /**
+         * 复写此方法 正常的item必须返回  layoutId 就是return super.(position)
+         *
+         * @param position
+         * @return 返回指定为位置的 布局id
+         */
+        public
+        @LayoutRes
+        int getViewType(int position) {
+            return layoutId;
+        }
+
+
         @Override
-        final public void onBindViewHolder(MyRecycleViewHolder holder, int position) {
+        public void onBindViewHolder(BaseRecycleViewHolder holder, int position) {
             switch (getItemViewType(position)) {
                 case headerFlash:
                     break;
@@ -454,16 +502,16 @@ public class XRecycleView extends RecyclerView {
 
         }
 
-        public void setHeaderData(MyRecycleViewHolder holder, View headerView, int position) {
+        public void setHeaderData(BaseRecycleViewHolder holder, View headerView, int position) {
 
         }
 
 
-        public void bindHolder(MyRecycleViewHolder holder, int position) {
+        public void bindHolder(BaseRecycleViewHolder holder, int position) {
             setViewData(holder, mData.get(position), position);
         }
 
-        public abstract void setViewData(MyRecycleViewHolder t, M m, int position);
+        public abstract void setViewData(BaseRecycleViewHolder t, M m, int position);
 
 
         @Override
@@ -474,17 +522,13 @@ public class XRecycleView extends RecyclerView {
             if (mXrecycleView.getHeaderViewSize() > 0 && position > 0 && position <= mXrecycleView.getHeaderViewSize()) {
                 return headerType;
             }
-            if (getCount() == 0 && position == mXrecycleView.getHeaderViewSize() + 1) {
+            if (getCount() == 0 && position == mXrecycleView.getHeaderViewSize() + 1 && mXrecycleView.getEmputyView() != null) {
                 return emputy;
             }
             if ((position == getItemCount() - 1)) {
                 return footLoadMore;
             }
-            return getViewType(position - mXrecycleView.getHeaderViewSize() - 1);
-        }
-
-        public int getViewType(int position) {
-            return 0;
+            return getType(position - mXrecycleView.getHeaderViewSize() - 1);
         }
 
         public int getCount() {
@@ -503,5 +547,6 @@ public class XRecycleView extends RecyclerView {
             }
         }
     }
+
 
 }

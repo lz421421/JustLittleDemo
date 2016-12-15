@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.lizhi.demo.CanvasPath.CanvasPathActivity;
 import com.lizhi.demo.chaoshidemo.HomeFragment;
+import com.lizhi.demo.contacts.ContactsActivity;
 import com.lizhi.demo.coordinatorlayout_behavior.MyTextView;
 import com.lizhi.demo.fresco.activity.FrescoActivity;
 import com.lizhi.demo.numberpswEdit.NumberPswEditTextActivity;
@@ -122,9 +124,11 @@ public class MainActivity extends BaseActivity {
 
 
 //        startActivity(RecycleViewActivity.class);
-//        startActivity(XRecycleViewActivity.class);
-        startActivity(NumberPswEditTextActivity.class);
+        startActivity(XRecycleViewActivity.class);
+//        startActivity(NumberPswEditTextActivity.class);
+//        startActivity(CanvasPathActivity.class);
 
+//        startActivity(ContactsActivity.class);
 
     }
 

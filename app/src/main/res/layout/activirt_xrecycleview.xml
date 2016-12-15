@@ -1,18 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#ccff00ff" />
+
+
     <com.lizhi.demo.view.XRecycleView.XRecycleView
         android:id="@+id/xrcv_xrlv"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"></com.lizhi.demo.view.XRecycleView.XRecycleView>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/button"
+        android:layout_below="@+id/title" />
+
+
+    <com.lizhi.demo.view.LetterSortView
+        android:id="@+id/letterSortView"
+        android:layout_width="23dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/button"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/title" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:text="操作" />
-</LinearLayout>
+
+    <com.lizhi.demo.view.RoundTextView
+        android:id="@+id/rtv_middle"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="M"
+        android:textColor="@color/white"
+        android:textSize="45sp"
+        app:radios="10dp"
+        app:roundBg="#80333333" />
+
+</RelativeLayout>

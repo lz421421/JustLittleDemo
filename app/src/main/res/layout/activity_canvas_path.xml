@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_canvas_path"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.lizhi.demo.CanvasPath.CanvasPathActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="你好你好你好"
+        android:layout_height="wrap_content" />
+
+    <com.lizhi.demo.CanvasPath.CanvasPathView
+        android:layout_width="200dp"
+        android:layout_height="200dp">
+
+    </com.lizhi.demo.CanvasPath.CanvasPathView>
+
+
+    <com.lizhi.demo.CanvasPath.BezierView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

@@ -55,4 +55,10 @@
         <attr name="strokeColor" format="color|reference"></attr>
     </declare-styleable>
 
+
+    <declare-styleable name="RoundTextView">
+        <attr name="radios" format="dimension"></attr>
+        <attr name="roundBg" format="color"></attr>
+    </declare-styleable>
+
 </resources>
