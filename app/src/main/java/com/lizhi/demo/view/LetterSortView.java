@@ -54,7 +54,7 @@ public class LetterSortView extends View {
     OnLetterTouchListener onLetterTouchListener;
 
     public interface OnLetterTouchListener {
-        void onTouch(String letter);
+        void onTouch(String letter, boolean isUp);
     }
 
     public void setOnLetterTouchListener(OnLetterTouchListener onLetterTouchListener) {
@@ -102,22 +102,26 @@ public class LetterSortView extends View {
         touchLetter = getLetter(touchY);
         int action = event.getActionMasked();
         switch (action) {
+            case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_DOWN:
                 isDrawBg = true;
+                if (onLetterTouchListener != null && touchLetter != null) {
+                    onLetterTouchListener.onTouch(touchLetter.trim(), false);
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 isDrawBg = false;
+                if (onLetterTouchListener != null && touchLetter != null) {
+                    onLetterTouchListener.onTouch(touchLetter.trim(), true);
+                }
                 break;
         }
         invalidate();
-        if (onLetterTouchListener != null && touchLetter != null) {
-            onLetterTouchListener.onTouch(touchLetter.trim());
-        }
         return true;
     }
 
     public String getLetter(float touchY) {
-        int index = (int) (touchY / (mSingleTextSize + letterSpace));
+        int index = (int) (touchY / (mSingleTextSize + letterSpace + 1));
         if (index >= 0 && index < letters.length) {
             return letters[index];
         } else {
@@ -127,7 +131,7 @@ public class LetterSortView extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mHeight = h;
+        mHeight = h - 5;
         mWidth = w;
     }
 
