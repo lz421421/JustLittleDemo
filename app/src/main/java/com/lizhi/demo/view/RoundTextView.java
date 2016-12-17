@@ -36,7 +36,8 @@ public class RoundTextView extends TextView {
         mPaint = new Paint();
         mPaint.setColor(roundBg);
         mPaint.setAntiAlias(true);
-        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(10);
 
     }
 

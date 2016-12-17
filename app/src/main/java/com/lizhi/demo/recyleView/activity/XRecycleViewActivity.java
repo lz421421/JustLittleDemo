@@ -117,7 +117,7 @@ public class XRecycleViewActivity extends BaseActivity {
         letterSortView = (LetterSortView) findViewById(R.id.letterSortView);
         letterSortView.setOnLetterTouchListener(new LetterSortView.OnLetterTouchListener() {
             @Override
-            public void onTouch(String letter) {
+            public void onTouch(String letter,boolean isUp) {
                 rtv_middle.setVisibility(View.VISIBLE);
                 rtv_middle.setText(letter);
             }

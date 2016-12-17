@@ -5,7 +5,10 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Picture;
 import android.graphics.RectF;
+import android.graphics.drawable.PictureDrawable;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -16,6 +19,7 @@ import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
 import com.lizhi.demo.R;
+import com.lizhi.demo.utils.DensityUtil;
 import com.lizhi.demo.utils.LogUtil;
 
 /**
@@ -28,6 +32,10 @@ public class CircleRotateView extends View {
     float strokeWidth = 10;
     int color = 0x666666;
     boolean isStart = false;
+
+
+    int mWidth;//圆圈的宽
+    int mHeight;//圆圈的 高
 
     public CircleRotateView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -43,11 +51,13 @@ public class CircleRotateView extends View {
         mPaint.setColor(color);
         mPaint.setAntiAlias(true);
         mPaint.setStrokeWidth(strokeWidth);
+        mHeight = mWidth = DensityUtil.dip2px(getContext(), 20);
     }
 
     public CircleRotateView(Context context) {
         this(context, null);
     }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -89,6 +99,9 @@ public class CircleRotateView extends View {
 
     int i = 0;
 
+
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         int width = getWidth();
@@ -97,10 +110,13 @@ public class CircleRotateView extends View {
         float cHeight = (float) (height * 0.6);
         RectF rectF = new RectF((width - cWidth) / 2, (height - cHeight) / 2, (width + cWidth) / 2, (height + cHeight) / 2);
         canvas.drawArc(rectF, 270 + i, (float) 240, false, mPaint);
-        if (isStart) {
+        if (isStart ) {
             i += 15;
             postInvalidate();
         }
+
+
+
     }
 
     public void isStart(boolean isStart) {

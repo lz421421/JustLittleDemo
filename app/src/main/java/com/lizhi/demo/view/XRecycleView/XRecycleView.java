@@ -1,23 +1,18 @@
 package com.lizhi.demo.view.XRecycleView;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 
-import com.lizhi.demo.R;
-import com.lizhi.demo.baseadapter.MyRecycleViewHolder;
+
 import com.lizhi.demo.recyleView.BaseRecycleViewHolder;
 import com.lizhi.demo.utils.LogUtil;
 
@@ -32,11 +27,9 @@ import java.util.List;
 public class XRecycleView extends RecyclerView {
 //    private final String TAG = "XRecycleView";
 
-
     private static final float DRAG_RATE = 2.5f;
     private static final float DRAG_RATE_FOOTER = 2.5f;
     OnXRecycleListener onXRecycleListener;
-    boolean isFirstTouch = true;
     private List<View> headerView;
     private LinearLayoutManager mLayoutManager;
     private XRecycleViewHeaderLayout headerFlashView;
@@ -152,7 +145,7 @@ public class XRecycleView extends RecyclerView {
         if (mLastY == -1) {
             mLastY = event.getRawY();
         }
-        int action = event.getAction();
+        int action = event.getActionMasked();
         float y = event.getRawY();
         float deltaY = y - mLastY;
         switch (action) {
@@ -416,6 +409,7 @@ public class XRecycleView extends RecyclerView {
 
         public void setData(List<M> mData) {
             this.mData = mData;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -547,6 +541,5 @@ public class XRecycleView extends RecyclerView {
             }
         }
     }
-
 
 }

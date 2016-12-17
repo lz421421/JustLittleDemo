@@ -124,9 +124,9 @@ public class MainActivity extends BaseActivity {
 
 
 //        startActivity(RecycleViewActivity.class);
-        startActivity(XRecycleViewActivity.class);
+//        startActivity(XRecycleViewActivity.class);
 //        startActivity(NumberPswEditTextActivity.class);
-//        startActivity(CanvasPathActivity.class);
+        startActivity(CanvasPathActivity.class);
 
 //        startActivity(ContactsActivity.class);
 

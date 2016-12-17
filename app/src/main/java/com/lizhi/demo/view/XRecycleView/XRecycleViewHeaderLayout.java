@@ -70,7 +70,7 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
         if (lp.topMargin < originalHeigt) {
             lp.topMargin = originalHeigt;
         }
-        if (getState() != State.FLASHING && getState() != FLASH_ENABLE_FALSE) {
+        if (getState() != State.FLASHING && getState() != FLASH_ENABLE_FALSE && getState() != FLASH_COMPLETE) {
             if (getNowHeight() >= flashHeight) {
                 setState(CAN_FLASH);
             } else {
@@ -170,6 +170,8 @@ public class XRecycleViewHeaderLayout extends LinearLayout {
                             xRecycleListener.onFlash();
                             break;
                         case FLASH_COMPLETE:
+                            tv_header_flash_point.setText("");
+                            setState(NO_CAN_FLASH);
                             break;
                     }
                 }

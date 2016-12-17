@@ -20,6 +20,7 @@
         <com.lizhi.demo.view.CircleRotateView
             android:id="@+id/crv_header_falsh"
             android:layout_width="30dp"
+            android:layout_gravity="center_vertical"
             android:layout_height="30dp"
             CircleRotateView:strokeColor="#666666"
             CircleRotateView:strokeWidth="2dp" />
