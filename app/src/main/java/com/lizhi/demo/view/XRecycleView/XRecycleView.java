@@ -30,6 +30,7 @@ public class XRecycleView extends RecyclerView {
     private static final float DRAG_RATE = 2.5f;
     private static final float DRAG_RATE_FOOTER = 2.5f;
     OnXRecycleListener onXRecycleListener;
+    boolean isFirstTouch = true;
     private List<View> headerView;
     private LinearLayoutManager mLayoutManager;
     private XRecycleViewHeaderLayout headerFlashView;
@@ -197,7 +198,7 @@ public class XRecycleView extends RecyclerView {
     }
 
     public void completeFlashOrLoad() {
-        if (headerFlashView.getState() == XRecycleViewHeaderLayout.State.FLASHING) {
+        if (headerFlashView != null && headerFlashView.getState() == XRecycleViewHeaderLayout.State.FLASHING) {
             headerFlashView.complete();
         }
 
@@ -481,8 +482,9 @@ public class XRecycleView extends RecyclerView {
                 case headerFlash:
                     break;
                 case headerType:
+                    position = position - 1;
                     if (mXrecycleView.getHeaderViews() != null) {
-                        setHeaderData(holder, mXrecycleView.getHeaderViews().get(position - 1), position - 1);
+                        setHeaderData(holder, mXrecycleView.getHeaderViews().get(position), position);
                     }
                     break;
                 case footLoadMore:
@@ -490,7 +492,7 @@ public class XRecycleView extends RecyclerView {
                 case emputy:
                     break;
                 default:
-                    bindHolder(holder, position - mXrecycleView.getHeaderViewSize() - 1);
+                    bindHolder(holder, position - mXrecycleView.getHeaderViewSize() - 1 - (mXrecycleView.getEmputyView() == null ? 0 : 1));
                     break;
             }
 
@@ -519,7 +521,7 @@ public class XRecycleView extends RecyclerView {
             if (getCount() == 0 && position == mXrecycleView.getHeaderViewSize() + 1 && mXrecycleView.getEmputyView() != null) {
                 return emputy;
             }
-            if ((position == getItemCount() - 1)) {
+            if ((position == getItemCount() - 1) && getCount() > 0) {
                 return footLoadMore;
             }
             return getType(position - mXrecycleView.getHeaderViewSize() - 1);
@@ -533,10 +535,11 @@ public class XRecycleView extends RecyclerView {
         final public int getItemCount() {
             if (getCount() == 0) {
                 if (mXrecycleView.getEmputyView() != null) {
-                    return getCount() + mXrecycleView.getHeaderViewSize() + 3;
+                    return mXrecycleView.getHeaderViewSize() + 2;
                 }
-                return getCount() + mXrecycleView.getHeaderViewSize() + 2;
+                return mXrecycleView.getHeaderViewSize() + 1;
             } else {
+                mXrecycleView.setEmputyView(null);
                 return getCount() + mXrecycleView.getHeaderViewSize() + 2;
             }
         }
