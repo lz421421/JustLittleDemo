@@ -244,7 +244,7 @@ public class RxJavaActivity extends BaseActivity {
     public void showImgTest() {
         final int drawableId = R.drawable.goods_sample;
         final ImageView img = (ImageView) findViewById(R.id.img_showImg);
-        Observable.create(new Observable.OnSubscribe<Drawable>() {
+        Observable.unsafeCreate(new Observable.OnSubscribe<Drawable>() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void call(Subscriber<? super Drawable> subscriber) {//加载在线程

@@ -8,7 +8,7 @@ android {
         // 语言选择只使用中文
         resConfigs "zh"
         applicationId "com.lizhi.demo"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -47,6 +47,7 @@ dependencies {
     compile 'io.reactivex:rxjava:+'
     compile 'io.reactivex:rxandroid:+'
     compile 'com.ashokvarma.android:bottom-navigation-bar:0.9.5'
+    compile 'com.dewarder:holdingbutton:0.0.4'
 }
 
 android {
