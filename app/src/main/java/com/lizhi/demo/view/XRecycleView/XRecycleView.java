@@ -355,20 +355,6 @@ public class XRecycleView extends RecyclerView {
         }
 
         /**
-         * 批量移除
-         *
-         * @param startPosition 这个position是去掉headerSize开始算起的(包括)
-         * @param endPosition   不包括
-         */
-        final public void notifyItemRangeRemove(int startPosition, int endPosition) {
-            if (mData == null) {
-                throw new IllegalArgumentException("瞎J8删除！！你TM有数据吗");
-            }
-            mData.subList(startPosition, endPosition).clear();
-            notifyItemRangeRemoved(startPosition + 1 + mXrecycleView.getHeaderViewSize(), endPosition + 1 + mXrecycleView.getHeaderViewSize());
-        }
-
-        /**
          * 移除指定位置的数据  这个position是去掉headerSize开始算起的
          *
          * @param position 被移除的位置
@@ -377,12 +363,16 @@ public class XRecycleView extends RecyclerView {
             if (mData == null) {
                 throw new IllegalArgumentException("没有数据");
             }
-            LogUtil.log("---------notifyItemRemove------>" + position);
-            if (position == -1) {
+            if (position < 0) {
                 return;
             }
+            int pos = position + 1 + mXrecycleView.getHeaderViewSize();
             mData.remove(position);
-            notifyItemRemoved(position + 1 + mXrecycleView.getHeaderViewSize());
+            if (mData.size() == 0) {
+                notifyDataSetChanged();
+            } else {
+                notifyItemRemoved(pos);
+            }
         }
 
         public void setmXrecycleView(XRecycleView mXrecycleView) {
@@ -492,7 +482,11 @@ public class XRecycleView extends RecyclerView {
                 case emputy:
                     break;
                 default:
-                    bindHolder(holder, position - mXrecycleView.getHeaderViewSize() - 1 - (mXrecycleView.getEmputyView() == null ? 0 : 1));
+                    if (mXrecycleView == null) {
+                        bindHolder(holder, position);
+                    } else {
+                        bindHolder(holder, position - mXrecycleView.getHeaderViewSize() - 1);
+                    }
                     break;
             }
 
@@ -512,6 +506,9 @@ public class XRecycleView extends RecyclerView {
 
         @Override
         final public int getItemViewType(int position) {
+            if (mXrecycleView == null) {
+                return getType(position);
+            }
             if (position == 0) {
                 return headerFlash;
             }
@@ -533,14 +530,16 @@ public class XRecycleView extends RecyclerView {
 
         @Override
         final public int getItemCount() {
+            if (mXrecycleView == null) {
+                return getCount();
+            }
             if (getCount() == 0) {
                 if (mXrecycleView.getEmputyView() != null) {
-                    return mXrecycleView.getHeaderViewSize() + 2;
+                    return 1 + mXrecycleView.getHeaderViewSize() + 1;
                 }
                 return mXrecycleView.getHeaderViewSize() + 1;
             } else {
-                mXrecycleView.setEmputyView(null);
-                return getCount() + mXrecycleView.getHeaderViewSize() + 2;
+                return getCount() + 1 + mXrecycleView.getHeaderViewSize() + 1;
             }
         }
     }

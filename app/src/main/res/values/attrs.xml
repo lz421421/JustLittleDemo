@@ -59,6 +59,7 @@
     <declare-styleable name="RoundTextView">
         <attr name="radios" format="dimension"></attr>
         <attr name="roundBg" format="color"></attr>
+        <attr name="isStroke" format="boolean"></attr>
     </declare-styleable>
 
 </resources>

@@ -9,8 +9,8 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="你好你好你好"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="你好你好你好" />
 
     <com.lizhi.demo.CanvasPath.CanvasPathView
         android:layout_width="100dp"
@@ -23,16 +23,23 @@
         android:layout_width="100dp"
         android:layout_height="100dp" />
 
-    <com.lizhi.demo.CanvasPath.DuiHaoAnimationView
-        android:id="@+id/adv_aav"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+    <!--<com.lizhi.demo.CanvasPath.DuiHaoAnimationView-->
+    <!--android:id="@+id/adv_aav"-->
+    <!--android:layout_width="100dp"-->
+    <!--android:visibility="gone"-->
+    <!--android:layout_height="100dp" />-->
+
+    <com.lizhi.demo.CanvasPath.DrawBitmap
+        android:id="@+id/drawBitmap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
     <Button
         android:id="@+id/btn_start"
-        android:text="OK"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="OK" />
 
 
 </LinearLayout>

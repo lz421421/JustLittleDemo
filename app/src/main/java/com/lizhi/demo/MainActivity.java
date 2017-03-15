@@ -19,8 +19,10 @@ import com.lizhi.demo.recyleView.activity.RecycleViewActivity;
 import com.lizhi.demo.recyleView.activity.XRecycleViewActivity;
 import com.lizhi.demo.rxjava.RxJavaActivity;
 import com.lizhi.demo.tantan.activity.TanTanMainActivity;
+import com.lizhi.demo.threadpool.ThreadPoolActivity;
 import com.lizhi.demo.utils.LogUtil;
 import com.lizhi.demo.view.RectProgressView;
+import com.lizhi.demo.viewDragHelper.ViewDragHelperActivity;
 
 public class MainActivity extends BaseActivity {
     MyTextView first;
@@ -126,9 +128,11 @@ public class MainActivity extends BaseActivity {
 //        startActivity(RecycleViewActivity.class);
 //        startActivity(XRecycleViewActivity.class);
 //        startActivity(NumberPswEditTextActivity.class);
-        startActivity(CanvasPathActivity.class);
+//        startActivity(CanvasPathActivity.class);
 
 //        startActivity(ContactsActivity.class);
+//        startActivity(ViewDragHelperActivity.class);
+        startActivity(ThreadPoolActivity.class);
 
     }
 

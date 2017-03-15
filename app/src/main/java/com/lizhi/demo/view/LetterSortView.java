@@ -22,13 +22,12 @@ import java.util.Map;
  */
 
 public class LetterSortView extends View {
-
-    String[] letters = new String[]{
-            "↑",
+    public static final String[] letters = new String[]{
+            "#",
             "A", "B", "C", "D", "E", "F", "G", "H",
-            " I", "J", "K", "L", "M", "N", "O", "P",
+            "I", "J", "K", "L", "M", "N", "O", "P",
             "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
-            , "#"
+
     };
 
     int mHeight = 0;
@@ -39,22 +38,18 @@ public class LetterSortView extends View {
     boolean isDrawBg = false;
     Paint bgPaint;//背景的画笔
     TextPaint textPaint;//字母的画笔
-    Map<String, Integer> letterPositionMap;//字母坐标
+    OnLetterTouchListener onLetterTouchListener;
 
     public LetterSortView(Context context) {
         this(context, null);
     }
 
+
     public LetterSortView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        letterSpace = DensityUtil.dip2px(context, 5);
+        mSingleTextSize = DensityUtil.sp2px(context, 12);
         initPaint();
-    }
-
-
-    OnLetterTouchListener onLetterTouchListener;
-
-    public interface OnLetterTouchListener {
-        void onTouch(String letter, boolean isUp);
     }
 
     public void setOnLetterTouchListener(OnLetterTouchListener onLetterTouchListener) {
@@ -62,19 +57,17 @@ public class LetterSortView extends View {
     }
 
     public void initPaint() {
-        letterPositionMap = new HashMap<>();
         bgPaint = new Paint();
-        bgPaint.setColor(0x88bfbfbf);
+        bgPaint.setColor(0xffbfbfbf);
         bgPaint.setAntiAlias(true);
         bgPaint.setStyle(Paint.Style.FILL);
 
         textPaint = new TextPaint();
         textPaint.setAntiAlias(true);
         textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setColor(0x88565656);
+        textPaint.setColor(0xff666666);
         textPaint.setTextSize(mSingleTextSize);
     }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -86,12 +79,22 @@ public class LetterSortView extends View {
 
         switch (heightMode) {
             case MeasureSpec.AT_MOST://匹配父窗口
+                height = letters.length * mSingleTextSize + (letters.length - 1) * letterSpace;
                 break;
             case MeasureSpec.EXACTLY://确定大小
                 break;
             case MeasureSpec.UNSPECIFIED://有多大显示多大
                 break;
+        }
 
+        switch (widthMode) {
+            case MeasureSpec.AT_MOST://匹配父窗口
+                width = mSingleTextSize + DensityUtil.dip2px(getContext(), 6);
+                break;
+            case MeasureSpec.EXACTLY://确定大小
+                break;
+            case MeasureSpec.UNSPECIFIED://有多大显示多大
+                break;
         }
         setMeasuredDimension(width, height);
     }
@@ -110,9 +113,10 @@ public class LetterSortView extends View {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 isDrawBg = false;
-                if (onLetterTouchListener != null && touchLetter != null) {
-                    onLetterTouchListener.onTouch(touchLetter.trim(), true);
+                if (onLetterTouchListener != null) {
+                    onLetterTouchListener.onTouch(null, true);
                 }
                 break;
         }
@@ -121,18 +125,12 @@ public class LetterSortView extends View {
     }
 
     public String getLetter(float touchY) {
-        int index = (int) (touchY / (mSingleTextSize + letterSpace + 1));
+        int index = (int) (touchY / (mSingleTextSize + letterSpace));
         if (index >= 0 && index < letters.length) {
             return letters[index];
         } else {
-            return "没有";
+            return null;
         }
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mHeight = h - 5;
-        mWidth = w;
     }
 
     @Override
@@ -142,18 +140,47 @@ public class LetterSortView extends View {
             RectF bgRect = new RectF(0, 0, mWidth, mHeight);
             canvas.drawRect(bgRect, bgPaint);
         }
-        mSingleTextSize = (mHeight - (letters.length - 1) * letterSpace) / letters.length;
-        textPaint.setTextSize(mSingleTextSize);
         for (int i = 0; i < letters.length; i++) {
-            int x = mWidth / 2 - mSingleTextSize / 2 + 9;
+            int x = mWidth - mSingleTextSize;
+            if (i == 9 || i == letters.length - 1) {
+                x = x + 3;
+            }
             String text = letters[i];
-            if (i == 0) {
-                x = mWidth / 2 - mSingleTextSize / 2;
-            }
-            if (i == 13 || i == 23) {
-                x = mWidth / 2 - mSingleTextSize / 2 + 5;
-            }
-            canvas.drawText(text, x, (mSingleTextSize + letterSpace) * (i + 1), textPaint);
+            canvas.drawText(text, x, mSingleTextSize, textPaint);
+            canvas.translate(0, letterSpace + mSingleTextSize);
         }
+        /*****************/
+//        draw(canvas);
+    }
+//
+//    public void draw(Canvas canvas) {
+//        if (isDrawBg) {
+//            //画背景
+//            RectF bgRect = new RectF(0, 0, mWidth, mHeight);
+//            canvas.drawRect(bgRect, bgPaint);
+//        }
+//        mSingleTextSize = (mHeight - (letters.length - 1) * letterSpace) / letters.length;
+//        textPaint.setTextSize(mSingleTextSize);
+//        for (int i = 0; i < letters.length; i++) {
+//            int x = mWidth / 2 - mSingleTextSize / 2 + 9;
+//            String text = letters[i];
+//            if (i == letters.length - 1) {
+//                x = mWidth / 2 - mSingleTextSize / 2;
+//            }
+//            if (i == 13 || i == 23) {
+//                x = mWidth / 2 - mSingleTextSize / 2 + 5;
+//            }
+//            canvas.drawText(text, x, (mSingleTextSize + letterSpace) * (i + 1), textPaint);
+//        }
+//    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        mHeight = h - 5;
+        mWidth = w;
+    }
+
+    public interface OnLetterTouchListener {
+        void onTouch(String letter, boolean isUp);
     }
 }

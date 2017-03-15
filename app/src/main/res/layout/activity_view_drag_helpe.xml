@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_view_drag_helpe"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lizhi.demo.viewDragHelper.ViewDragHelperActivity">
+
+
+    <com.lizhi.demo.viewDragHelper.SwipeItemView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        </LinearLayout>
+    </com.lizhi.demo.viewDragHelper.SwipeItemView>
+
+
+    <com.lizhi.demo.viewDragHelper.MyRecycleView
+        android:id="@+id/myRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.lizhi.demo.viewDragHelper.MyRecycleView>
+
+</RelativeLayout>

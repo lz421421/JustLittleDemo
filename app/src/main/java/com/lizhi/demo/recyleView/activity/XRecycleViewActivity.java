@@ -58,27 +58,31 @@ public class XRecycleViewActivity extends BaseActivity {
     public void initRecycleView() {
         xRecycleView.setItemAnimator(new DefaultItemAnimator());
 
-//        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
-//        xRecycleView.setLayoutManager(gridLayoutManager);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        final GridLayoutManager linearLayoutManager = new GridLayoutManager(this, 4);
         xRecycleView.setLayoutManager(linearLayoutManager);
+
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        xRecycleView.setLayoutManager(linearLayoutManager);
 
 
         View view1 = LayoutInflater.from(this).inflate(R.layout.layout_recycleheader, null, false);
-        View view2 = LayoutInflater.from(this).inflate(R.layout.layout_coordinator, null, false);
-        View view3 = LayoutInflater.from(this).inflate(R.layout.layout_scroll_header, null, false);
-        View view4 = LayoutInflater.from(this).inflate(R.layout.activity_tantanhome, null, false);
-//        xRecycleView.addHeader(view1);
+//        View view2 = LayoutInflater.from(this).inflate(R.layout.layout_coordinator, null, false);
+//        View view3 = LayoutInflater.from(this).inflate(R.layout.layout_scroll_header, null, false);
+//        View view4 = LayoutInflater.from(this).inflate(R.layout.activity_tantanhome, null, false);
+        xRecycleView.addHeader(view1);
 //        xRecycleView.addHeader(view2);
 //        xRecycleView.addHeader(view3);
 //        xRecycleView.addHeader(view4);
 //        xRecycleView.setFlashEnable(false);
-        abcAdapter = new ABCAdapter(R.layout.item_recycle_grid);
+        abcAdapter = new ABCAdapter(R.layout.item_recycleview);
         List<String> datas = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
-            datas.add("--->" + j);
+            if (i % 3 == 0) {
+                datas.add("--title->" + i);
+            }else {
+                datas.add("--->" + i);
+            }
         }
         xRecycleView.setAdapter(abcAdapter);
         abcAdapter.setData(datas);
@@ -117,7 +121,7 @@ public class XRecycleViewActivity extends BaseActivity {
         letterSortView = (LetterSortView) findViewById(R.id.letterSortView);
         letterSortView.setOnLetterTouchListener(new LetterSortView.OnLetterTouchListener() {
             @Override
-            public void onTouch(String letter,boolean isUp) {
+            public void onTouch(String letter, boolean isUp) {
                 rtv_middle.setVisibility(View.VISIBLE);
                 rtv_middle.setText(letter);
             }
@@ -136,6 +140,19 @@ public class XRecycleViewActivity extends BaseActivity {
 
         @Override
         public void setViewData(final BaseRecycleViewHolder holder, String item, int position) {
+            if (holder.getItemViewType() == R.layout.layout_xrecycle_title) {
+                holder.setText(R.id.tv_title, item);
+            } else {
+                holder.setText(R.id.tv_content, item);
+            }
+        }
+
+        @Override
+        public int getViewType(int position) {
+            if (position % 3 == 0) {
+                return R.layout.layout_xrecycle_title;
+            }
+            return super.getViewType(position);
         }
     }
 
