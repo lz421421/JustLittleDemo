@@ -72,6 +72,7 @@ public class AcrTextView extends View {
         extra_Paint.setAntiAlias(true);//抗锯齿
         extra_Paint.setStyle(Paint.Style.STROKE);
     }
+    int i = 0;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -79,7 +80,7 @@ public class AcrTextView extends View {
         int height = getMeasuredHeight();
         RectF rectF = new RectF(2, 2, width - 2, height * 2);
         canvas.drawArc(rectF, 180, 180, false, mPaint);
-
+        invalidate();
         //文字
         progressSize = height / 2;
         mProgressPaint.setTextSize(progressSize);

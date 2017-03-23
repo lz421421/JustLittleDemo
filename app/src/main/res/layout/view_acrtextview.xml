@@ -7,6 +7,6 @@
     <com.lizhi.demo.view.AcrTextView
         android:layout_width="100dp"
         android:layout_margin="40dp"
-        android:layout_height="100dp" />
+        android:layout_height="50dp" />
 
 </LinearLayout>
