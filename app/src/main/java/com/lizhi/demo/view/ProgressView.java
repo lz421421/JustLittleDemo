@@ -39,11 +39,11 @@ public class ProgressView extends View {
 
     private int sweepStep = 10;//扇形变换的步长(就是角度)
     private int padding = 0;//外边框距离扇形的距离 填充
+    // 设置外边框圆的边框粗细
+    private int storke = 0;
     private int circleColor = Color.WHITE;//边框的颜色
     private int sweepColor = Color.parseColor("#20000000");//扇形颜色
     private int startAngle = 90;//起始角度
-    // 设置外边框圆的边框粗细
-    private int storke = 0;
     private int sweepAngle = 0;//扫过的角度
 
     private static final int DEFAULT_WIDTH = 100;

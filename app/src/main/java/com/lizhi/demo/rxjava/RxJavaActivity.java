@@ -122,6 +122,7 @@ public class RxJavaActivity extends BaseActivity {
 //                schedukersTest();
             }
         });
+
     }
 
     public List<Student> initStudent() {
