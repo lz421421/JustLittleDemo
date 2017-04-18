@@ -23,6 +23,7 @@ import com.lizhi.demo.threadpool.ThreadPoolActivity;
 import com.lizhi.demo.utils.LogUtil;
 import com.lizhi.demo.view.RectProgressView;
 import com.lizhi.demo.viewDragHelper.ViewDragHelperActivity;
+import com.lizhi.demo.viewdemo.ActivityViewDemo;
 
 public class MainActivity extends BaseActivity {
     MyTextView first;
@@ -90,7 +91,7 @@ public class MainActivity extends BaseActivity {
 //        startActivity(PersonalActivity.class);
 
 //        startActivity(TimeTextViewActivity.class);
-//        startActivity(OkHttpActivity.class);
+        startActivity(OkHttpActivity.class);
 //        startActivity(NormalH5Activity.class);
 //        startActivity(TabViewPagerActivity.class);
 
@@ -132,7 +133,8 @@ public class MainActivity extends BaseActivity {
 
 //        startActivity(ContactsActivity.class);
 //        startActivity(ViewDragHelperActivity.class);
-        startActivity(ThreadPoolActivity.class);
+//        startActivity(ThreadPoolActivity.class);
+//        startActivity(ActivityViewDemo.class);
 
     }
 

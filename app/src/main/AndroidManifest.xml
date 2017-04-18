@@ -76,7 +76,8 @@
         <activity android:name=".CanvasPath.CanvasPathActivity" />
         <activity android:name=".contacts.ContactsActivity" />
         <activity android:name=".viewDragHelper.ViewDragHelperActivity" />
-        <activity android:name=".threadpool.ThreadPoolActivity"></activity>
+        <activity android:name=".threadpool.ThreadPoolActivity" />
+        <activity android:name=".viewdemo.ActivityViewDemo"></activity>
     </application>
 
 </manifest>

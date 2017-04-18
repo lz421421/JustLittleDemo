@@ -8,7 +8,9 @@
         android:id="@+id/tv_item"
         android:layout_width="wrap_content"
         android:background="@drawable/fuwuzhan_icon"
-        android:text="2016.01.12\n2016.01.23"
+        android:text="1"
+        android:gravity="center"
+        android:textSize="40sp"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>
