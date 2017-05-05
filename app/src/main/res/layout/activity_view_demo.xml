@@ -3,9 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.lizhi.demo.viewdemo.ActivityViewDemo">
 
+
+    <com.lizhi.demo.view.SquareView
+        android:layout_width="wrap_content"
+        app:squareColor="#ffff0000"
+        app:isStoke="false"
+        android:layout_height="wrap_content" />
 
     <com.lizhi.demo.view.OrientationSlideMoreRecycleView
         android:id="@+id/orientationSlideMoreRecycleView"

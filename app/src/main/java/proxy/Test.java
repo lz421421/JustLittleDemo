@@ -29,5 +29,19 @@ public class Test {
                 return object;
             }
         });
+
+
+        int a = 99999, b = 10000;
+        swap(a, b);
+        System.out.println("-------->" + a + "---->" + b);
+    }
+
+
+    public static void swap(int a, int b) {
+        int tem;
+        tem = a;
+        a = b;
+        b = tem;
+        System.out.println("----swap---->" + a + "---->" + b);
     }
 }

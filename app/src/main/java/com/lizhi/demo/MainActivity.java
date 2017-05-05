@@ -12,6 +12,7 @@ import com.lizhi.demo.chaoshidemo.HomeFragment;
 import com.lizhi.demo.contacts.ContactsActivity;
 import com.lizhi.demo.coordinatorlayout_behavior.MyTextView;
 import com.lizhi.demo.fresco.activity.FrescoActivity;
+import com.lizhi.demo.mvp.LoginActivity;
 import com.lizhi.demo.numberpswEdit.NumberPswEditTextActivity;
 import com.lizhi.demo.okhttp.activity.OkHttpActivity;
 import com.lizhi.demo.personal.PersonalActivity;
@@ -91,7 +92,7 @@ public class MainActivity extends BaseActivity {
 //        startActivity(PersonalActivity.class);
 
 //        startActivity(TimeTextViewActivity.class);
-        startActivity(OkHttpActivity.class);
+//        startActivity(OkHttpActivity.class);
 //        startActivity(NormalH5Activity.class);
 //        startActivity(TabViewPagerActivity.class);
 
@@ -135,6 +136,8 @@ public class MainActivity extends BaseActivity {
 //        startActivity(ViewDragHelperActivity.class);
 //        startActivity(ThreadPoolActivity.class);
 //        startActivity(ActivityViewDemo.class);
+
+        startActivity(LoginActivity.class);
 
     }
 

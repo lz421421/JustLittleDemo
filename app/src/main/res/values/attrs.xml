@@ -62,4 +62,10 @@
         <attr name="isStroke" format="boolean"></attr>
     </declare-styleable>
 
+    <declare-styleable name="SquareView">
+        <attr name="squareColor" format="color"></attr>
+        <attr name="isStoke" format="boolean"></attr>
+
+    </declare-styleable>
+
 </resources>

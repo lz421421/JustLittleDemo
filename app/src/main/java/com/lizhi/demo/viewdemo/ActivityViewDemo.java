@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -82,6 +84,25 @@ public class ActivityViewDemo extends BaseActivity implements View.OnTouchListen
         ArrayList<String> list;
 
     }
+
+    public  class MyThread extends  Thread{
+        Handler handler;
+        Looper looper2;
+        Looper looper;
+
+        Looper looper1 = Looper.getMainLooper();
+
+        MyThread(){
+            handler = new Handler();
+            looper2 =  handler.getLooper();
+        }
+        @Override
+        public void run() {
+            looper = Looper.myLooper();
+        }
+    }
+
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
